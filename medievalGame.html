@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="medievalGame.css" />
+    <title>Medieval Game</title>
+</head>
+<body>
+
+    <div id="container">
+        <!-- People Section -->
+        <div id="people">
+            <div class="person" id="peopleTitle"> Directory of Inhabitants   
+                <div id="filter">Filter: </div> 
+                 <div id="filterMenu"class="inactive">  
+                    <div class="filterOption" id="age">
+                        <div class="filterName" >Age</div> <div class="filterToggle">🔻</div>
+                    </div>
+                    <div class="filterOption" id="health">
+                        <div class="filterName">Health</div> <div class="filterToggle">🔻</div>
+                    </div>
+        </div> 
+          </div>
+        
+
+     
+ 
+            
+        </div>
+            
+       
+
+        <!-- Main Section -->
+        <div id="mainContainer">
+            <div id="construction">
+
+<div id="residential" class="constructionDiv"> 
+    <div id="residentialTitle" class="constructionDivTitle ">Residential</div>
+    <div id="residentialButtons" class="constructionDivButtons">
+        <div id="hovel"class="constructionButton">Hovel</div>
+        <div id="townhouse"class="constructionButton">Townhouse</div>
+        <div id="manor"class="constructionButton">Manor</div>
+    </div>
+</div>
+<div id="storage" class="constructionDiv">
+    <div id="storageTitle"  class="constructionDivTitle">Storage</div>
+    <div id="storageButtons"class="constructionDivButtons constructionDivButtonsHalf">
+        <div id="granary"class="constructionButton">
+           Granary
+        </div>
+        <div id="shed"class="constructionButton">Shed</div>
+    </div>
+
+</div>
+<div id="knowledge" class="constructionDiv">
+    <div id="knowledgeTitle" class="constructionDivTitle">Knowledge</div>
+    <div id="knowledgeButtons" class="constructionDivButtons constructionDivButtonsHalf">
+
+        <div id="library"class="constructionButton">Library</div>
+        <div id="university"class="constructionButton">University</div>
+        <div id="scriptorium"class="constructionButton">Scriptorium</div>
+    </div>
+</div>
+<div id="production" class="constructionDiv">
+    <div id="productionConstructionTitle" class="constructionDivTitle">Production</div>
+    <div id="productionButtons" class="constructionDivButtons constructionDivButtonsDouble">
+        <div id="quarry"class="constructionButton">Quarry</div>
+        <div id="lumberHut"class="constructionButton">Lumber Hut</div>
+        <div id="farm"class="constructionButton">Grain Farm</div>
+        <div id="farm"class="constructionButton">Barley Farm</div>
+        <div id="mine"class="constructionButton">Iron Mine</div>
+        <div id="blacksmith"class="constructionButton">Blacksmith</div>
+        <div id="taxOffice"class="constructionButton">Tax Office</div>
+        <div id="brewery"class="constructionButton">Brewery</div>
+        <div id="market"class="constructionButton">Market</div>
+
+        
+    </div>
+
+</div>
+<div id="justice" class="constructionDiv">
+    <div id="justiceTitle" class="constructionDivTitle">Justice</div>
+    <div id="justiceButtons" class="constructionDivButtons">
+        <div id="barracks"class="constructionButton">Barracks</div>
+        <div id="court"class="constructionButton">Court</div>
+        <div id="prison"class="constructionButton">Prison Block</div>
+        <div id="wall"class="constructionButton">Wall</div>
+
+
+    </div>
+
+</div>
+<div id="health" class="constructionDiv">
+    <div id="healthTitle" class="constructionDivTitle">Health</div>
+    <div id="healthButtons" class="constructionDivButtons constructionDivButtonsHalf">
+        <div id="clinic"class="constructionButton">Clinic</div>
+        <div id="clini"class="constructionButton">Clinic</div>
+    </div>
+</div>
+<div id="entertainment" class="constructionDiv">
+    <div id="entertainmentTitle" class="constructionDivTitle">Entertainment</div>
+    <div id="entertainmentButtons" class="constructionDivButtons constructionDivButtonsHalf" >
+        <div id="tavern"class="constructionButton">Tavern</div>
+        <div id="theatre"class="constructionButton">Theatre</div>
+                <div id="theatre"class="constructionButton">Theatre</div>
+
+
+
+    </div>
+</div>
+
+            </div>
+            <div id="military"></div>
+            <div id="legislature"></div>
+            <div id="research"></div>
+        </div>
+
+        <!-- Header Section -->
+        <div id="header">
+            <div id="timeData">Season, Day, Notes</div>
+            <div id="title">The Sylvan Concord</div>
+            <div id="pausePlay"></div>
+        </div>
+
+        <!-- Footer Section -->
+        <div id="footer">
+            <div id="tab1" class="footerTab"></div>
+            <div id="tab2" class="footerTab"></div>
+            <div id="tab3" class="footerTab"></div>
+            <div id="tab4" class="footerTab"></div>
+            <div id="tab5" class="footerTab"></div>
+            <div id="tab6" class="footerTab"></div>
+        </div>
+
+        <!-- Right Side Section -->
+        <div id="leftSide">
+            <div id="productionData">
+           <div id="productionTitle">State of production</div>
+           <div id="woodProduction" class="resourceDiv"> 🪵Wood:                    n/n                       n/month</div>
+           <div id="stoneProduction" class="resourceDiv">🪨Stone:</div>
+           <div id="cropProduction" class="resourceDiv">🌾Crops:</div>
+           <div id="goldProduction" class="resourceDiv">🪙Gold:</div>
+           <div id="ironProduction" class="resourceDiv">Iron:</div>
+           <div id="aleProduction" class="resourceDiv">🍺Ale:</div>
+           <div id="charcoalProduction" class="resourceDiv">Charcoal:</div>
+           <div id="weaponsProduction" class="resourceDiv">🗡️Weapons:</div>
+           <div id="knowledgeProduction" class="resourceDiv">🕮Knowledge:</div>
+
+
+
+
+
+
+
+            </div>
+            <div id="eventLog">
+<div id="eventLogTitle">Ledger of Occurences</div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div class="eventLogitem"></div>
+<div id="userInput"></div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="medievalGame.js"></script>
+</body>
+</html>
