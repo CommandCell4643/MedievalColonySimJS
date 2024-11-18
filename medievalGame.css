@@ -36,7 +36,7 @@ height: auto;
 
 #container{
     display: grid;
-    grid-template-columns: .6fr 1.6fr .9fr;
+    grid-template-columns: .5fr 1.6fr .8fr;
     grid-template-rows: .1fr 2fr .17fr ;
     height: 100vh;
 
@@ -79,7 +79,10 @@ body{
     }
     
     #filter{
+        width: 70%;
+        border-radius: 8px;
         grid-area: filter;
+        margin: auto;
         text-align: center;
         font-size: 100%;
         font-weight: 600;
@@ -87,7 +90,7 @@ body{
         margin-top: 10px;
         color: rgb(220, 161, 0);
         transition: background-color 0.3s ease, color .3s ease, transform .3s ease;
-        padding: 10px;
+margin-bottom: 1%;     
     }
     
     #filter:hover{
@@ -99,22 +102,40 @@ body{
     
     /* Adjust filter menu to appear below */
     #filterMenu{
-        position: relative; /* Ensure it's positioned relative to the parent */
-        width: 100%; /* Match filter width */
-        
+         /* Ensure it's positioned relative to the parent */
+        width: 70%; /* Match filter width */
+   
+        margin: auto;
        
       
         z-index: 999;
     }
     
-    .filterOption{
-        padding: 5px;
-     
-        color: rgb(220, 161, 0);
+    .filterCheckbox{
+        font-size: 100%;
+        padding: 1%;
+     border-radius: 8px;
+        color: white;
         background-color: rgb(40, 40, 40);
-        margin-bottom: 5px;
+        margin-bottom: 1%;
+        font-weight: 400;
+
+    }
+
+
+
+    .filterOption {
+        font-size: 100%;
+        padding: 1%;
+     border-radius: 8px;
+        color: white;
+        background-color: rgb(40, 40, 40);
+        margin-bottom: 1%;
       display: grid;
-      grid-template-areas: "filterName filterName filterName filterToggle";
+      grid-template-areas: "filterName filterToggle";
+      grid-template-columns: 1fr 1fr;
+      font-weight: 400;
+
     }
     .filterName{
         grid-area: filterName;
@@ -135,7 +156,7 @@ body{
 
 .selectedFilter{
     background-color: rgb(48, 47, 44);
-        color: white;
+        color: rgb(160, 183, 153);;
 }
 #peopleTitle{
     grid-area: peopleTitle;
@@ -152,10 +173,10 @@ body{
         scroll-snap-align: start;
         margin-left: 5px;
         margin-right: 5px;
-        border-radius: 3px;
+        border-radius: 8px;
         background-color: rgb(40, 40, 40);
         color:white;
-        padding: 13px;
+        padding: 5%;
        text-align: center;
     }
     
@@ -298,9 +319,6 @@ justify-content: center;    display: flex;
 
 
 
-.inactive{
-    display: none;
-}
 
 
 
@@ -312,20 +330,27 @@ justify-content: center;    display: flex;
 }
 
 #construction{
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 2fr 1fr 1fr 1fr;
-gap: 2px;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr .2fr;
+gap: 3%;
 padding:5% 6% 0% 6%;
     grid-template-areas: 
     
     "residential residential"
-    "storage knowledge"
+    "storage storage"
+    "knowledge knowledge"
     "production production"
+    "food food"
     "justice justice"
     "health entertainment"
+    
     ;
     height: 100%;
+}
+
+.inactive{
+    display: none;
 }
 
 #residential{
@@ -335,7 +360,7 @@ grid-area: residential;
 }
 
 
-  body {
+  * {
         cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="%23D0A407" d="M19.27 15.32 7.77 1.61A1 1 0 0 0 6 2.25v17.89a1 1 0 0 0 1.64.77l3.08-2.58 1.56 4.3a1 1 0 0 0 1.28.6l1.88-.68a1 1 0 0 0 .6-1.28l-1.56-4.3h4.02a1 1 0 0 0 .77-1.64Z"></path></svg>') 8 8, auto;
   }
   
@@ -358,7 +383,7 @@ grid-template-rows: 1fr 3fr;
     background-color:  rgb(48, 47, 44);
     text-align: left;
     font-size: 100%;
-    font-weight: 1000;
+    font-weight: 600;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     padding-left: 10px;
     
@@ -377,11 +402,7 @@ grid-template-rows: 1fr 3fr;
     grid-template-rows: 1fr;
     gap: 2px
 }
-.constructionDivButtonsDouble{
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
-    grid-template-rows: 1fr 1fr;
-    gap: 2px
-    }
+
 
 
 
@@ -415,6 +436,12 @@ grid-area: knowledge;
 
  }
 
+
+
+#food{
+    grid-area: food;
+}
+
 #health{
     grid-area: health;
    
@@ -447,4 +474,200 @@ color: white;
 
 .inactive{
 display: none;
+}
+
+
+
+
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Custom checkbox container */
+.checkbox-container {
+   position: relative;
+        display: inline-block;
+        width: 5%;            /* 10% of the parent width */
+        aspect-ratio: 1 / 1;   /* Ensures height is equal to width */
+        background-color: black;
+        border-radius: 4px;
+        
+    
+}
+
+/* Checkmark for the checked state */
+.checkbox-container::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 90%;               /* Adjust the size of the checkmark */
+    height: 90%;
+    background-color: transparent;
+    border-radius: 2px;
+    transform: translate(-50%, -50%);  /* Centering with transform */
+    transition: background-color 0.3s;
+}
+
+/* Change background to orange when checked */
+input[type="checkbox"]:checked + .checkbox-container::after {
+    background-color: rgb(160, 183, 153);
+}
+
+
+
+
+
+
+.tooltip-text {
+    position: fixed;           /* Fixed to escape container overflow */
+    background-color: rgb(40, 40, 40);
+
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1000;              /* Ensures it appears on top */
+    visibility: hidden;         /* Initially hidden */
+    opacity: 0;                 /* Initially invisible */
+    transition: opacity 1s ease;
+}
+
+
+#personMenu{
+    background-color:  rgb(48, 47, 44);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr .2fr;
+gap: 3%;
+padding:5% 6% 0% 6%;
+    grid-template-areas: 
+    
+    "notes notes notes"
+    "data data data"
+    "actions actions actions"
+   "options options options"
+     "options options options"
+       "options options options"
+    
+    ;
+    height: 100%;
+}
+
+
+
+#personData{
+    grid-area: data;
+    background-color: antiquewhite;
+
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas: 
+    
+    "title"
+"buttons"
+    
+}
+
+#personNotes{
+    grid-area: notes;
+    background-color: antiquewhite;
+
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas: 
+    
+    "title"
+"buttons"
+    
+    
+    ;
+   
+
+}
+
+#personActions{
+    grid-area: actions;
+    background-color: antiquewhite;
+
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas: 
+    
+    "title"
+"buttons"
+    
+    
+    ;
+}
+
+
+#personOptions{
+    grid-area: options;
+    background-color: antiquewhite;
+
+    display: grid;
+    grid-template-rows: 1fr 9fr;
+    grid-template-areas: 
+    
+    "title"
+"buttons"
+    
+    
+    ;
+   
+
+}
+
+
+
+
+.personDivTitle{
+    color:rgb(220, 161, 0);
+    background-color:  rgb(48, 47, 44);
+    text-align: left;
+    font-size: 100%;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    padding-left: 10px;
+    grid-area: title;
+    
+}
+
+.personDivButtons{
+    grid-area: buttons;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-rows: 1fr;
+    background-color:  rgb(48, 47, 44);
+    gap: 2px
+}
+
+.personButton{
+    margin: 3px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+    background-color: rgb(40, 40, 40);
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color .3s ease, transform .3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 90%;
+font-family:Verdana, Geneva, Tahoma, sans-serif;
+color: white;
+}
+.personButton:hover{
+    background-color: rgb(63, 64, 61);
+    color: rgb(160, 183, 153);
+ 
+}
+
+.personOptionsDivButtons{
+    grid-area: buttons;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    background-color:  rgb(48, 47, 44);
+    gap: 2px
 }

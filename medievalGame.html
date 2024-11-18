@@ -7,6 +7,7 @@
     <title>Medieval Game</title>
 </head>
 <body>
+    <div class="tooltip-text" id="tooltip">Tooltip content!</div>
 
     <div id="container">
         <!-- People Section -->
@@ -14,11 +15,26 @@
             <div class="person" id="peopleTitle"> Directory of Inhabitants   
                 <div id="filter">Filter: </div> 
                  <div id="filterMenu"class="inactive">  
+
+                 
+
+                <div class="filterCheckbox">   <label>
+                <input type="checkbox" >
+                 <span class="checkbox-container"></span> <!-- Custom checkbox container -->
+                Include Prisoners
+                </label></div>
+                <div class="filterCheckbox">   <label>
+                    <input type="checkbox" >
+                     <span class="checkbox-container"></span> <!-- Custom checkbox container -->
+                    Include Citizens
+                    </label></div>
+
+
                     <div class="filterOption" id="age">
-                        <div class="filterName" >Age</div> <div class="filterToggle">🔻</div>
+                        <div class="filterName" >Age</div> <div class="filterToggle">▼</div>
                     </div>
                     <div class="filterOption" id="health">
-                        <div class="filterName">Health</div> <div class="filterToggle">🔻</div>
+                        <div class="filterName">Health</div> <div class="filterToggle">▼</div>
                     </div>
         </div> 
           </div>
@@ -33,29 +49,35 @@
 
         <!-- Main Section -->
         <div id="mainContainer">
-            <div id="construction">
-
+            
+            <div id="construction" class="inactive">
 <div id="residential" class="constructionDiv"> 
     <div id="residentialTitle" class="constructionDivTitle ">Residential</div>
     <div id="residentialButtons" class="constructionDivButtons">
-        <div id="hovel"class="constructionButton">Hovel</div>
+        <div id="hovel"class="constructionButton tooltip-trigger" data-value="Dog">Hovel</div>
+        <div id="longhouse"class="constructionButton">Longhouse</div>
+        <div id="cottage"class="constructionButton">Cottage</div>
         <div id="townhouse"class="constructionButton">Townhouse</div>
-        <div id="manor"class="constructionButton">Manor</div>
+        <div id="manor"class="constructionButton tooltip-trigger" data-value="Dog">Manor</div>
     </div>
 </div>
 <div id="storage" class="constructionDiv">
     <div id="storageTitle"  class="constructionDivTitle">Storage</div>
-    <div id="storageButtons"class="constructionDivButtons constructionDivButtonsHalf">
+    <div id="storageButtons"class="constructionDivButtons">
         <div id="granary"class="constructionButton">
            Granary
         </div>
         <div id="shed"class="constructionButton">Shed</div>
+        <div id="coldRoom"class="constructionButton">Cold Room</div>
+
+        <div id="taxOffice"class="constructionButton">Tax Office</div>
+
     </div>
 
 </div>
 <div id="knowledge" class="constructionDiv">
     <div id="knowledgeTitle" class="constructionDivTitle">Knowledge</div>
-    <div id="knowledgeButtons" class="constructionDivButtons constructionDivButtonsHalf">
+    <div id="knowledgeButtons" class="constructionDivButtons">
 
         <div id="library"class="constructionButton">Library</div>
         <div id="university"class="constructionButton">University</div>
@@ -64,21 +86,34 @@
 </div>
 <div id="production" class="constructionDiv">
     <div id="productionConstructionTitle" class="constructionDivTitle">Production</div>
-    <div id="productionButtons" class="constructionDivButtons constructionDivButtonsDouble">
+    <div id="productionButtons" class="constructionDivButtons">
         <div id="quarry"class="constructionButton">Quarry</div>
         <div id="lumberHut"class="constructionButton">Lumber Hut</div>
-        <div id="farm"class="constructionButton">Grain Farm</div>
-        <div id="farm"class="constructionButton">Barley Farm</div>
         <div id="mine"class="constructionButton">Iron Mine</div>
         <div id="blacksmith"class="constructionButton">Blacksmith</div>
-        <div id="taxOffice"class="constructionButton">Tax Office</div>
-        <div id="brewery"class="constructionButton">Brewery</div>
-        <div id="market"class="constructionButton">Market</div>
+        <div id="kiln"class="constructionButton">Charcoal Kiln</div>
+
 
         
     </div>
 
 </div>
+
+<div id="food" class="constructionDiv">
+    <div id="foodTitle" class="constructionDivTitle">Food</div>
+    <div id="foodButtons" class="constructionDivButtons">
+        <div id="huntingSite"class="constructionButton">Hunting Site</div>
+
+        <div id="farm"class="constructionButton">Grain Farm</div>
+<div id="kitchen" class="constructionButton">Kitchen</div>
+        <div id="brewery"class="constructionButton tooltip-trigger" data-value="Dog">Brewery</div>
+
+
+    </div>
+
+</div>
+
+
 <div id="justice" class="constructionDiv">
     <div id="justiceTitle" class="constructionDivTitle">Justice</div>
     <div id="justiceButtons" class="constructionDivButtons">
@@ -109,11 +144,110 @@
 
     </div>
 </div>
+<div id="justice" class="constructionDiv">
+    <div id="justiceTitle" class="constructionDivTitle">Justice</div>
+    <div id="justiceButtons" class="constructionDivButtons">
+        <div id="barracks"class="constructionButton">Barracks</div>
+        <div id="court"class="constructionButton">Court</div>
+        <div id="prison"class="constructionButton">Prison Block</div>
+        <div id="wall"class="constructionButton">Wall</div>
 
+
+    </div>
+
+</div>
             </div>
-            <div id="military"></div>
-            <div id="legislature"></div>
-            <div id="research"></div>
+
+<div id="personMenu">
+
+<div id="personNotes">
+
+    <div class="personDivTitle">Urgent Notes</div>
+
+    <div class="personDivButtons">
+
+        <div class="personButton">Sick</div>
+        <div class="personButton">Wounded</div>   
+        <div class="personButton">Starving</div>
+        <div class="personButton">Guilty</div>
+
+    
+    
+    
+    </div>
+
+</div>
+<div id="personData">
+<div class="personDivTitle"> Info</div>
+
+    <div class="personDivButtons">
+
+        <div class="personButton">health</div>
+        <div class="personButton">morale</div>   
+        <div class="personButton">age</div>
+        <div class="personButton">gender</div>
+
+    
+    
+    
+    </div>
+
+</div>
+<div id="personActions">
+    
+    
+    <div class="personDivTitle">Actions</div>
+
+
+<div class="personDivButtons">
+
+    <div class="personButton">Punish</div>
+    <div class="personButton">Change employment</div>   
+    <div class="personButton">Change residence</div>
+
+
+
+</div>
+
+
+
+
+</div>
+<div id="personOptions"><div class="personDivTitle"> </div>
+
+    <div class="personOptionsDivButtons">
+
+        <div class="personButton">Actor</div>
+        <div class="personButton">Apothecary</div>
+        <div class="personButton">Tavern Keeper</div>
+        <div class="personButton">Blacksmith</div>
+        <div class="personButton">Brewer</div>
+        <div class="personButton">Carpenter</div>
+        <div class="personButton">Cook</div>
+        <div class="personButton">Farmer</div>
+        <div class="personButton">Hunter</div>
+        <div class="personButton">Collier</div>
+        <div class="personButton">Woodcutter</div>
+        <div class="personButton">Miner</div>
+        <div class="personButton">Quarrier</div>
+        <div class="personButton">Constable</div>
+
+
+        <div class="personButton">Train as soldier</div>
+    
+    
+    
+    </div></div>
+
+
+
+</div>
+
+
+
+
+
+           
         </div>
 
         <!-- Header Section -->
@@ -137,15 +271,15 @@
         <div id="leftSide">
             <div id="productionData">
            <div id="productionTitle">State of production</div>
-           <div id="woodProduction" class="resourceDiv"> 🪵Wood:                    n/n                       n/month</div>
-           <div id="stoneProduction" class="resourceDiv">🪨Stone:</div>
-           <div id="cropProduction" class="resourceDiv">🌾Crops:</div>
-           <div id="goldProduction" class="resourceDiv">🪙Gold:</div>
+           <div id="woodProduction" class="resourceDiv"> Wood:                    n/n                       n/month</div>
+           <div id="stoneProduction" class="resourceDiv">Stone:</div>
+           <div id="cropProduction" class="resourceDiv">Crops:</div>
+           <div id="cropProduction" class="resourceDiv">Meals:</div>
+           <div id="goldProduction" class="resourceDiv">Gold:</div>
            <div id="ironProduction" class="resourceDiv">Iron:</div>
-           <div id="aleProduction" class="resourceDiv">🍺Ale:</div>
+           <div id="aleProduction" class="resourceDiv">Ale:</div>
            <div id="charcoalProduction" class="resourceDiv">Charcoal:</div>
-           <div id="weaponsProduction" class="resourceDiv">🗡️Weapons:</div>
-           <div id="knowledgeProduction" class="resourceDiv">🕮Knowledge:</div>
+           <div id="weaponsProduction" class="resourceDiv">Weapons:</div>
 
 
 
