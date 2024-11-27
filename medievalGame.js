@@ -2,6 +2,12 @@
 //document.addEventListener("contextmenu",function(event){
  //   event.preventDefault()
 //})
+
+let wood = 1000
+let stone = 100000
+
+
+
 const maleNames = [
     "Adalbert", "Aethelred", "Alaric", "Aldous", "Alfred", "Amalric", "Ambrose", "Anselm", "Arnulf", "Arthur",
     "Baldric", "Balthasar", "Bardolf", "Bartholomew", "Basil", "Beowulf", "Benedict", "Bernard", "Bertram", "Bohemond",
@@ -355,6 +361,9 @@ const tooltip = document.getElementById('tooltip');
             // Set tooltip position using calculated percentages
             tooltip.style.left = tooltipXPercent + '%';
             tooltip.style.top = tooltipYPercent + '%';
+
+           
+
         }
         
 
@@ -366,6 +375,25 @@ const tooltip = document.getElementById('tooltip');
                 
                 // Update tooltip text with the data-value
                 tooltip.innerHTML = dataValue;
+                let div = document.getElementById("resources")
+                let text = div.innerHTML.split('<br>')
+                let resourceReq = text.map(row => {
+                    let [quantity, resource] = row.trim().split(' ');
+                    console.log([quantity,resource])
+                    return { quantity: parseInt(quantity, 10), resource: resource.trim()};
+                })
+                console.log(resourceReq)
+                resourceReq.forEach((req,index)=>{
+                    if((req.resource === 'wood' && wood >=req.quantity)||
+                    (req.resource === 'stone' && stone >=req.quantity)){
+                        text[index] = `<span class="sufficient">${text[index]}</span>`
+                    }else{
+                        text[index] = `<span class="insufficient">${text[index]}</span>`
+                    }
+                }) 
+                div.innerHTML = text.join('<br>');
+
+
 
                 tooltip.style.visibility = 'visible';
                 tooltip.style.opacity = '1';
@@ -447,3 +475,15 @@ function switchToEmployment(){
 function switchToJustice(){
     
 }
+
+
+
+
+
+
+
+
+
+
+
+

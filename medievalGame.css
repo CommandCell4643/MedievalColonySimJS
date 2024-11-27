@@ -527,8 +527,12 @@ input[type="checkbox"]:checked + .checkbox-container::after {
 }
 
 
-
-
+.insufficient{
+    color: red;
+}
+.sufficient{
+    color: white;
+}
 
 
 .tooltip-text {
