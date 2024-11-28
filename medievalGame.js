@@ -3,8 +3,8 @@
  //   event.preventDefault()
 //})
 
-let wood = 1000
-let stone = 100000
+let wood = 10
+let stone = 10
 
 
 
