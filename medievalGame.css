@@ -198,7 +198,7 @@ margin-bottom: 1%;
     display: grid;
     height: auto;
     grid-template-columns: 1fr ;
-    grid-template-rows: 1fr 1.5fr .6fr;
+    grid-template-rows: .9fr 1fr 1fr;
 gap: 2px;
 }
 
@@ -251,8 +251,8 @@ overflow: hidden;
 
 .resourceDiv{
    
-font-size: 80%;
-padding: 5px;
+font-size: 100%;
+padding: 1.5%;
 }
 
 #header {
@@ -307,8 +307,7 @@ justify-content: center;    display: flex;
     border-radius: 10px; /* Adjust value for more or less rounding */
     overflow: hidden;
     margin: 2px;
-    margin-bottom: 1%;
-    border: black 2px solid;
+    margin-bottom: 15px;
 }
 
 
@@ -321,10 +320,10 @@ justify-content: center;    display: flex;
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 80%;
 }
 .footerTab:hover{
     transform: scaleX(1.1);
+
 }
 
 .footerTab:hover{
@@ -349,8 +348,8 @@ justify-content: center;    display: flex;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr .2fr;
-gap: 2%;
-padding:3% 4% 3% 4%;
+gap: 3%;
+padding:5% 6% 0% 6%;
     grid-template-areas: 
     
     "residential residential"
@@ -365,9 +364,7 @@ padding:3% 4% 3% 4%;
     height: 100%;
 }
 
-.inactive{
-    display: none;
-}
+
 
 #residential{
 grid-area: residential;
@@ -398,7 +395,7 @@ grid-template-rows: 1fr 3fr;
     color:rgb(220, 161, 0);
     background-color:  rgb(48, 47, 44);
     text-align: left;
-    font-size: 90%;
+    font-size: 100%;
     font-weight: 600;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     padding-left: 10px;
@@ -410,13 +407,13 @@ grid-template-rows: 1fr 3fr;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
     grid-template-rows: 1fr;
-    gap: .1%
+    gap: 2px
 }
 
 .constructionDivButtonsHalf{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    gap: .1%
+    gap: 2px
 }
 
 
@@ -467,10 +464,9 @@ grid-area: knowledge;
     grid-area: entertainment;
 }
 .constructionButton{
-    font-size: 90%;
     margin: 3px;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 5%;
+    margin-bottom: 5%;
     text-align: center;
     background-color: rgb(40, 40, 40);
     border-radius: 6px;
@@ -551,11 +547,10 @@ input[type="checkbox"]:checked + .checkbox-container::after {
     transition: opacity 1s ease;
 }
 #tooltip{
-    width: 12%;
+    width: 10%;
     height: auto;
     text-align: center;
     text-wrap: wrap;
-    font-size: 80%;
 }
 
 #personMenu{
@@ -564,7 +559,7 @@ input[type="checkbox"]:checked + .checkbox-container::after {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr .2fr;
 gap: 3%;
-padding:3% 4% 3% 4%;
+padding:5% 6% 0% 6%;
     grid-template-areas: 
     
     "notes notes notes"
@@ -582,7 +577,6 @@ padding:3% 4% 3% 4%;
 
 #personData{
     grid-area: data;
-    background-color: antiquewhite;
 
     display: grid;
     grid-template-rows: 1fr 3fr;
@@ -595,7 +589,7 @@ padding:3% 4% 3% 4%;
 
 #personNotes{
     grid-area: notes;
-    background-color: antiquewhite;
+
 
     display: grid;
     grid-template-rows: 1fr 3fr;
@@ -612,7 +606,6 @@ padding:3% 4% 3% 4%;
 
 #personActions{
     grid-area: actions;
-    background-color: antiquewhite;
 
     display: grid;
     grid-template-rows: 1fr 3fr;
@@ -628,7 +621,6 @@ padding:3% 4% 3% 4%;
 
 #personOptions{
     grid-area: options;
-    background-color: rgb(215, 250, 220);
 
     display: grid;
     grid-template-rows: 1fr 9fr;
@@ -650,7 +642,7 @@ padding:3% 4% 3% 4%;
     color:rgb(220, 161, 0);
     background-color:  rgb(48, 47, 44);
     text-align: left;
-    font-size: 90%;
+    font-size: 100%;
     font-weight: 600;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     padding-left: 10px;
@@ -659,7 +651,6 @@ padding:3% 4% 3% 4%;
 }
 
 .personDivButtons{
-    font-size: 90%;
     grid-area: buttons;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
@@ -682,7 +673,6 @@ justify-content: center;
 font-size: 90%;
 font-family:Verdana, Geneva, Tahoma, sans-serif;
 color: white;
-
 }
 .personButton:hover{
     background-color: rgb(63, 64, 61);
@@ -703,13 +693,20 @@ color: white;
     grid-area: buttons;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
-    grid-template-rows: 1fr 1fr 1fr .3fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     background-color:  rgb(48, 47, 44);
-    gap: 2px;
-    font-size: 90%;
+    gap: 2px
 }
 .urgent{
     display: none;
     color: red;
 }
 
+
+
+
+
+
+.inactive{
+    display: none;
+}

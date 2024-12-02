@@ -3,9 +3,9 @@
  //   event.preventDefault()
 //})
 
-let wood = 10
-let stone = 10
-
+let wood = 1000
+let stone = 100000
+let selectedPerson = ""
 
 
 const maleNames = [
@@ -131,7 +131,7 @@ maleNames.splice(randomNum, 1)
 
 
 //job
-    let job = "unemployed"
+    let employment = "unemployed"
 
     //age 20-40
     let age = Math.floor(Math.random() * (41 - 20)) + 20;
@@ -152,7 +152,7 @@ maleNames.splice(randomNum, 1)
     let starving = false
     let wounded = false  
 
-    let newbie = new person(gender,chosenName, job, age, residence, morale, guilty, health, sick, starving, wounded)
+    let newbie = new person(gender,chosenName, employment, age, residence, morale, guilty, health, sick, starving, wounded)
     
 everyone.push(newbie)
 
@@ -173,11 +173,11 @@ selectPerson(event.target)
 
 
 class person{
-    constructor(gender, name, job, age, residence, morale, guilty, health, sick, starving, wounded){
+    constructor(gender, name, employment, age, residence, morale, guilty, health, sick, starving, wounded){
         this.div = null
 this.name = name
 this.gender = gender
-this.job = job
+this.employment = employment
 this.age = age
 this.residence = residence
 
@@ -343,22 +343,17 @@ function filterByHealth(){
 const tooltip = document.getElementById('tooltip');
         const triggers = document.querySelectorAll('.tooltip-trigger');
 
-        // Function to update tooltip position based on cursor position in percentages
         function updateTooltipPosition(event) {
-            // Calculate cursor position as a percentage of the viewport
             const cursorXPercent = (event.clientX / window.innerWidth) * 100;
             const cursorYPercent = (event.clientY / window.innerHeight) * 100;
         
-            // Default tooltip offsets
             let tooltipXPercent = cursorXPercent - (tooltip.offsetWidth / window.innerWidth) * 50; // Center horizontally
-            let tooltipYPercent = cursorYPercent + .5; // Position below by default
+            let tooltipYPercent = cursorYPercent + .5;
         
-            // If cursor is in the bottom half of the screen, position tooltip above
             if (cursorYPercent > 50) {
                 tooltipYPercent = cursorYPercent - .5 - (tooltip.offsetHeight / window.innerHeight) * 100; // Position above
             }
         
-            // Set tooltip position using calculated percentages
             tooltip.style.left = tooltipXPercent + '%';
             tooltip.style.top = tooltipYPercent + '%';
 
@@ -367,13 +362,11 @@ const tooltip = document.getElementById('tooltip');
         }
         
 
-        // Show tooltip on hover
+  
         triggers.forEach(trigger => {
             trigger.addEventListener('mouseenter', (event) => {
-                // Get the value from the data-value attribute
                 const dataValue = event.target.getAttribute('data-value');
                 
-                // Update tooltip text with the data-value
                 tooltip.innerHTML = dataValue;
                 let div = document.getElementById("resources")
                 let text = div.innerHTML.split('<br>')
@@ -400,10 +393,8 @@ const tooltip = document.getElementById('tooltip');
                 updateTooltipPosition(event);
             });
 
-            // Update tooltip position on mouse move
             trigger.addEventListener('mousemove', updateTooltipPosition);
 
-            // Hide tooltip on mouse leave
             trigger.addEventListener('mouseleave', () => {
                 tooltip.style.visibility = 'hidden';
                 tooltip.style.opacity = '0';
@@ -444,6 +435,8 @@ document.getElementById("healthData").innerText = `Health: ${personObj.health}`
 document.getElementById("moraleData").innerText = `Morale: ${personObj.morale}`
 document.getElementById("ageData").innerText = `Age: ${personObj.age}`
 document.getElementById("genderData").innerText = `Gender: ${personObj.gender}`
+document.getElementById("employmentData").innerText = `Job: ${personObj.employment}`
+
 
     if(personObj.sick === true){
         document.getElementById("sick").style.display = 'flex'
@@ -457,8 +450,24 @@ document.getElementById("genderData").innerText = `Gender: ${personObj.gender}`
     if(personObj.starving === true){
         document.getElementById("starving").style.display = 'flex'
     }
+    document.getElementById("urgentNotesTitle").innerText = `${personObj.name} - Urgent Notes`
+
+
+
+
+
+
 }
 
+
+document.getElementById("changeEmployment").addEventListener("click", function(selectedPerson){
+    for(let i of document.getElementsByClassName("personOptionsDivButtons")){
+        i.classList.add("inactive")
+    }
+        document.getElementById("employmentOptions").classList.remove("inactive")
+  
+console.log("5")
+})
 
 
 
