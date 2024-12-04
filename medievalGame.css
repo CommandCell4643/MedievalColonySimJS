@@ -331,7 +331,10 @@ justify-content: center;    display: flex;
     color: rgb(160, 183, 153);
 }
 
-
+.selected{
+    background-color: rgb(63, 64, 61);
+    color: rgb(160, 183, 153);
+}
 
 
 

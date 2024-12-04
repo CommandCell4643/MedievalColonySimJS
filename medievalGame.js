@@ -427,54 +427,64 @@ changeToPerson(personObj)
 
 
 
-function changeToPerson(personObj){
-    document.getElementById("construction").style.display = "none"
-        document.getElementById("personMenu").style.display = "grid"
+       
 
-document.getElementById("healthData").innerText = `Health: ${personObj.health}`
-document.getElementById("moraleData").innerText = `Morale: ${personObj.morale}`
-document.getElementById("ageData").innerText = `Age: ${personObj.age}`
-document.getElementById("genderData").innerText = `Gender: ${personObj.gender}`
-document.getElementById("employmentData").innerText = `Job: ${personObj.employment}`
+        function changeToPerson(personObj) {
+            let listenersBound = false; 
+            document.getElementById("construction").style.display = "none";
+            document.getElementById("personMenu").style.display = "grid";
+        
+            document.getElementById("healthData").innerText = `Health: ${personObj.health}`;
+            document.getElementById("moraleData").innerText = `Morale: ${personObj.morale}`;
+            document.getElementById("ageData").innerText = `Age: ${personObj.age}`;
+            document.getElementById("genderData").innerText = `Gender: ${personObj.gender}`;
+            document.getElementById("employmentData").innerText = `Job: ${personObj.employment}`;
+        
+            document.getElementById("sick").style.display = personObj.sick ? 'flex' : 'none';
+            document.getElementById("guilty").style.display = personObj.guilty ? 'flex' : 'none';
+            document.getElementById("wounded").style.display = personObj.wounded ? 'flex' : 'none';
+            document.getElementById("starving").style.display = personObj.starving ? 'flex' : 'none';
+        
+            document.getElementById("urgentNotesTitle").innerText = `${personObj.name} - Urgent Notes`;
+        
+     
+            if (!listenersBound) {
+                for (let button of document.getElementsByClassName("jobSelectButton")) {
+                    button.addEventListener("click", function(event) {
+                        jobSelect(personObj, event); 
+                    });
+                }
+                listenersBound = true; 
+            }
+        }
+        
+        function jobSelect(personObj, event) {
+            personObj.employment = event.target.id; 
+            changeToPerson(personObj); 
+        }
+        
 
-
-    if(personObj.sick === true){
-        document.getElementById("sick").style.display = 'flex'
-    }
-    if(personObj.guilty === true){
-        document.getElementById("guilty").style.display = 'flex'
-    }
-    if(personObj.wounded === true){
-        document.getElementById("wounded").style.display = 'flex'
-    }
-    if(personObj.starving === true){
-        document.getElementById("starving").style.display = 'flex'
-    }
-    document.getElementById("urgentNotesTitle").innerText = `${personObj.name} - Urgent Notes`
-
-
-
-
-
-
-}
-
-
-document.getElementById("changeEmployment").addEventListener("click", function(selectedPerson){
+document.getElementById("changeEmployment").addEventListener("click", function(){
     for(let i of document.getElementsByClassName("personOptionsDivButtons")){
         i.classList.add("inactive")
     }
         document.getElementById("employmentOptions").classList.remove("inactive")
   
-console.log("5")
 })
 
 
 
 
 function switchToConstruction(){
+for(let i of document.getElementsByClassName("mainMenu")){
+    i.style.display = "none"
+}
+document.getElementById("construction").style.display = "grid"
+document.getElementById("tab1").classList.add("selected")
 
 }
+
+
 
 function switchToEmployment(){
 

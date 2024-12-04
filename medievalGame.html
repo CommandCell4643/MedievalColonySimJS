@@ -50,7 +50,7 @@
         <!-- Main Section -->
         <div id="mainContainer">
             
-            <div id="construction" class="inactive">
+            <div id="construction" class="inactive mainMenu">
 <div id="residential" class="constructionDiv"> 
     <div id="residentialTitle" class="constructionDivTitle ">Residential</div>
     <div id="residentialButtons" class="constructionDivButtons">
@@ -159,7 +159,7 @@
 </div>
             </div>
 
-<div id="personMenu">
+<div id="personMenu" class="mainMenu">
 
 <div id="personNotes">
 
@@ -220,20 +220,19 @@
 
     <div class="personOptionsDivButtons inactive" id="employmentOptions">
 
-        <div class="personButton">Actor 3/6</div>
-        <div class="personButton">Apothecary</div>
-        <div class="personButton">Tavern Keeper</div>
-        <div class="personButton">Blacksmith</div>
-        <div class="personButton">Brewer</div>
-        <div class="personButton">Carpenter</div>
-        <div class="personButton">Cook</div>
-        <div class="personButton">Farmer</div>
-        <div class="personButton">Hunter</div>
-        <div class="personButton">Collier</div>
-        <div class="personButton">Woodcutter</div>
-        <div class="personButton">Miner</div>
-        <div class="personButton">Quarrier</div>
-        <div class="personButton">Constable</div>
+        <div class="personButton jobSelectButton" id="actor">Actor 3/∞</div>
+        <div class="personButton jobSelectButton" id="doctor">Doctor</div>
+        <div class="personButton jobSelectButton" id="barkeep">Barkeep</div>
+        <div class="personButton jobSelectButton" id="blacksmith">Blacksmith</div>
+        <div class="personButton jobSelectButton" id="brewer">Brewer</div>
+        <div class="personButton jobSelectButton" id="cook">Cook</div>
+        <div class="personButton jobSelectButton" id="farmer">Farmer</div>
+        <div class="personButton jobSelectButton" id="hunter">Hunter</div>
+        <div class="personButton jobSelectButton" id="collier">Collier</div>
+        <div class="personButton jobSelectButton" id="woodcutter">Woodcutter</div>
+        <div class="personButton jobSelectButton" id="miner">Miner</div>
+        <div class="personButton jobSelectButton" id="quarrier">Quarrier</div>
+        <div class="personButton jobSelectButton" id="constable">Constable</div>
 
 
         <div class="personButton">Train as soldier</div>
@@ -265,7 +264,7 @@
 
         <!-- Footer Section -->
         <div id="footer">
-            <div id="tab1" class="footerTab">Construction</div>
+            <div id="tab1" class="footerTab" onclick="switchToConstruction()">Construction</div>
             <div id="tab2" class="footerTab">Employment</div>
             <div id="tab3" class="footerTab">Justice & Military</div>
             <div id="tab4" class="footerTab">Legislature</div>
