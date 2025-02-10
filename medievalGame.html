@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="medievalGame.css" />
     <title>Medieval Game</title>
 </head>
+
 <body>
     <div class="tooltip-text" id="tooltip">Tooltip content!</div>
 
@@ -13,30 +14,7 @@
         <!-- People Section -->
         <div id="people">
             <div class="person" id="peopleTitle"> Directory of Inhabitants   
-                <div id="filter">Filter: </div> 
-                 <div id="filterMenu"class="inactive">  
-
-                 
-
-                <div class="filterCheckbox">   <label>
-                <input type="checkbox" >
-                 <span class="checkbox-container"></span> <!-- Custom checkbox container -->
-                Include Prisoners
-                </label></div>
-                <div class="filterCheckbox">   <label>
-                    <input type="checkbox" >
-                     <span class="checkbox-container"></span> <!-- Custom checkbox container -->
-                    Include Citizens
-                    </label></div>
-
-
-                    <div class="filterOption" id="age">
-                        <div class="filterName" >Age</div> <div class="filterToggle">▼</div>
-                    </div>
-                    <div class="filterOption" id="health">
-                        <div class="filterName">Health</div> <div class="filterToggle">▼</div>
-                    </div>
-        </div> 
+                
           </div>
         
 
@@ -54,44 +32,36 @@
 <div id="residential" class="constructionDiv"> 
     <div id="residentialTitle" class="constructionDivTitle ">Residential</div>
     <div id="residentialButtons" class="constructionDivButtons">
-        <div id="hovel"class="constructionButton tooltip-trigger" data-value="Hovel<hr>A small house for a couple residents<hr>+2 citizens <hr><div id='resources'> 30 wood <br>30 stone</div>">Hovel</div>
-        <div id="longhouse"class="constructionButton">Longhouse</div>
-        <div id="cottage"class="constructionButton">Cottage</div>
-        <div id="townhouse"class="constructionButton">Townhouse</div>
-        <div id="manor"class="constructionButton tooltip-trigger" data-value="Dog">Manor</div>
+        <div class="constructionButton tooltip-trigger" data-value="Hovel<hr>A tight and ugly home for a couple residents<hr>+2 max citizens <hr><div id='resources'> 30 wood <br>30 stone</div> <hr> <div id = 'work'> 60 work power" >Hovel</div>
+        <div class="constructionButton  tooltip-trigger" data-value="Longhouse<hr>A sizable but uncomfortable residence for some citizens<hr>+5 max citizens <hr><div id='resources'> 70 wood <br>55 stone</div> <hr> <div id = 'work'> 130 work power">Longhouse</div>
+        <div class="constructionButton  tooltip-trigger" data-value="Cottage<hr>A cozy house for middle class citizens<hr>+3 max citizens <hr><div id='resources'> 80 wood <br>60 stone</div> <hr> <div id = 'work'> 200 work power">Cottage</div>
+        <div class="constructionButton  tooltip-trigger" data-value="Townhouse<hr>A large residence capable of housing many citizens<hr>+6 max citizens <hr><div id='resources'> 100 wood <br>110 stone <br>10 iron</div> <hr> <div id = 'work'> 300 work power">Townhouse</div>
+        <div class="constructionButton tooltip-trigger" data-value="Manor<hr>A luxurious home for a couple people <hr>+2 max citizens<hr><div id='resources'> 200 wood <br>240 stone <br>70 iron</div> <hr> <div id = 'work'> 500 work power">Manor</div>
     </div>
 </div>
 <div id="storage" class="constructionDiv">
     <div id="storageTitle"  class="constructionDivTitle">Storage</div>
     <div id="storageButtons"class="constructionDivButtons">
-        <div id="granary"class="constructionButton">
+        <div id="granary"class="constructionButton tooltip-trigger" data-value="Granary<hr>A large storage place for crops<hr>+500 max crops <hr><div id='resources'> 90 wood <br>60 stone</div> <hr> <div id = 'work'> 200 work power" >
            Granary
         </div>
-        <div id="shed"class="constructionButton">Shed</div>
-        <div id="coldRoom"class="constructionButton">Cold Room</div>
+        <div id="shed"class="constructionButton tooltip-trigger" data-value="Shed<hr>A general all purpose storage shed<hr>+100 max wood <br> +80 max stone <br> +40 max iron <br> +5 max weapons <hr><div id='resources'> 150 wood <br>50 stone</div> <hr> <div id = 'work'> 200 work power" >Shed</div>
+        <div id="coldRoom"class="constructionButton tooltip-trigger" data-value="Cold Room<hr>A space to store easily perishable items<hr>+40 max meals <br> +30 max ale <hr><div id='resources'> 20 wood <br>90 stone</div> <hr> <div id = 'work'> 200 work power">Cold Room</div>
 
-        <div id="taxOffice"class="constructionButton">Tax Office</div>
+        <div id="taxOffice"class="constructionButton tooltip-trigger"data-value="Tax Office<hr>A secure but tight room to store gold<hr>+100 max gold <hr><div id='resources'> 40 wood <br>60 stone<br>20 iron</div> <hr> <div id = 'work'> 600 work power">Bank</div>
 
     </div>
 
 </div>
-<div id="knowledge" class="constructionDiv">
-    <div id="knowledgeTitle" class="constructionDivTitle">Knowledge</div>
-    <div id="knowledgeButtons" class="constructionDivButtons">
 
-        <div id="library"class="constructionButton">Library</div>
-        <div id="university"class="constructionButton">University</div>
-        <div id="scriptorium"class="constructionButton">Scriptorium</div>
-    </div>
-</div>
 <div id="production" class="constructionDiv">
-    <div id="productionConstructionTitle" class="constructionDivTitle">Production</div>
-    <div id="productionButtons" class="constructionDivButtons">
-        <div id="quarry"class="constructionButton">Quarry</div>
-        <div id="lumberHut"class="constructionButton">Lumber Hut</div>
-        <div id="mine"class="constructionButton">Iron Mine</div>
-        <div id="blacksmith"class="constructionButton">Blacksmith</div>
-        <div id="kiln"class="constructionButton">Charcoal Kiln</div>
+    <div id="productionConstructionTitle" class="constructionDivTitle ">Production</div>
+    <div id="productionButtons" class="constructionDivButtons ">
+        <div id="lumberHut"class="constructionButton tooltip-trigger" data-value="Lumber Hut<hr>The worksite of  lumberjacks<hr>+2 max lumberjack <hr><div id='resources'> 50 wood <br>20 stone</div> <hr> <div id = 'work'> 100 work power">Lumber Hut</div>
+        <div id="quarry"class="constructionButton tooltip-trigger" data-value="Quarry<hr>The worksite of quarriers<hr>+2 max quarriers <hr><div id='resources'> 60 wood</div> <hr> <div id = 'work'> 200 work power">Quarry</div>
+        
+        <div id="mine"class="constructionButton tooltip-trigger" data-value="Iron Mine<hr>A workplace for iron miners<hr>+1 max miner <hr><div id='resources'> 160 stone </div> <hr> <div id = 'work'> 400 work power">Iron Mine</div>
+        <div id="smithy"class="constructionButton tooltip-trigger" data-value="Blacksmith<hr>A workplace for blacksmiths<hr>+1 blacksmith <hr><div id='resources'> 120 stone <br>40 iron</div> <hr> <div id = 'work'> 350 work power">Blacksmith</div>
 
 
         
@@ -102,11 +72,10 @@
 <div id="food" class="constructionDiv">
     <div id="foodTitle" class="constructionDivTitle">Food</div>
     <div id="foodButtons" class="constructionDivButtons">
-        <div id="huntingSite"class="constructionButton">Hunting Site</div>
 
-        <div id="farm"class="constructionButton">Grain Farm</div>
-<div id="kitchen" class="constructionButton">Kitchen</div>
-        <div id="brewery"class="constructionButton tooltip-trigger" data-value="Brewery<hr>A building to produce ale from crops<hr>+2 max brewers <hr><div id='resources'> 30 wood <br>30 stone<br>10 manpower</div>">Brewery</div>
+        <div id="farm"class="constructionButton tooltip-trigger" data-value="Farm<hr>The workplace for farmers<hr>+2 max farmers <hr><div id='resources'> 50 wood</div> <hr> <div id = 'work'> 70 work power"> Farm</div>
+<div id="kitchen" class="constructionButton tooltip-trigger" data-value="Kitchen<hr>The workplace for cooks<hr>+1 max cook <hr><div id='resources'> 30 wood <br>30 stone</div> <hr> <div id = 'work'> 150 work power">Kitchen</div>
+        <div id="brewery"class="constructionButton tooltip-trigger" data-value="Brewery<hr>A building to produce ale from crops<hr>+2 max brewers <hr><div id='resources'> 30 wood <br>30 stone</div> <hr> <div id = 'work'> 300 work power">Brewery</div>
 
 
     </div>
@@ -138,9 +107,8 @@
 <div id="entertainment" class="constructionDiv">
     <div id="entertainmentTitle" class="constructionDivTitle">Entertainment</div>
     <div id="entertainmentButtons" class="constructionDivButtons constructionDivButtonsHalf" >
-        <div id="tavern"class="constructionButton">Tavern</div>
-        <div id="theatre"class="constructionButton">Theatre</div>
-                <div id="theatre"class="constructionButton">Theatre</div>
+        <div id="tavern"class="constructionButton tooltip-trigger"  data-value="Tavern<hr>A building where citizens can relax socially prodvided there is a bartender<hr>+1 max bartender <hr><div id='resources'> 100 wood <br>100 stone</div> <hr> <div id = 'work'> 300 work power">Tavern</div>
+        <div id="theatre"class="constructionButton tooltip-trigger"  data-value="Theatre<hr>A masterpiece of architecture to provide entertainment<hr>+3 max actor <hr><div id='resources'> 80 wood <br>250 stone  <br> 50 iron</div> <hr> <div id = 'work'> 1000 work power">Theatre</div>
 
 
 
@@ -167,10 +135,12 @@
 
     <div class="personDivButtons">
 
-        <div class="personButton urgent" id="sick">Sick</div>
-        <div class="personButton urgent" id="wounded">Wounded</div>   
-        <div class="personButton urgent" id="starving">Starving</div>
-        <div class="personButton urgent"  id="guilty">Guilty</div>
+        <div class="personButton urgent" id="sickUrgent">Sick</div>
+        <div class="personButton urgent" id="woundedUrgent">Wounded</div>   
+        <div class="personButton urgent" id="starvingUrgent">Starving</div>
+        <div class="personButton urgent"  id="unemployedUrgent">Unemployed</div>
+        <div class="personButton urgent"  id="homelessUrgent">Homeless</div>
+
 
     
     
@@ -184,7 +154,7 @@
     <div class="personDivButtons">
 
         <div class="personButton" id="healthData">health</div>
-        <div class="personButton" id="moraleData">morale</div>   
+        <div class="personButton tooltip-trigger" id="moraleData" data-value="<div id='moodBuff'></div>">morale</div>   
         <div class="personButton" id="ageData">age</div>
         <div class="personButton" id="genderData">gender</div>
         <div class="personButton" id="employmentData">Job:</div>
@@ -204,9 +174,9 @@
 
 <div class="personDivButtons">
 
-    <div class="personButton">Punish</div>
-    <div class="personButton" id="changeEmployment">Change employment</div>   
-    <div class="personButton">Change residence</div>
+    <div class="personButton" id="changeEmployment" onclick="switchToPersonOptionDivButtons('employmentOptions')">Change employment</div>   
+    <div class="personButton" id="changeResidence"onclick="switchToPersonOptionDivButtons('residenceOptions')">Change residence</div>
+    <div class="personButton" id="moreActions" onclick="switchToPersonOptionDivButtons('moreActionsOptions')">More actions</div>
 
 
 
@@ -220,7 +190,7 @@
 
     <div class="personOptionsDivButtons inactive" id="employmentOptions">
 
-        <div class="personButton jobSelectButton" id="actor">Actor 3/∞</div>
+        <div class="personButton jobSelectButton" id="actor">Actor</div>
         <div class="personButton jobSelectButton" id="doctor">Doctor</div>
         <div class="personButton jobSelectButton" id="barkeep">Barkeep</div>
         <div class="personButton jobSelectButton" id="blacksmith">Blacksmith</div>
@@ -228,25 +198,55 @@
         <div class="personButton jobSelectButton" id="cook">Cook</div>
         <div class="personButton jobSelectButton" id="farmer">Farmer</div>
         <div class="personButton jobSelectButton" id="hunter">Hunter</div>
-        <div class="personButton jobSelectButton" id="collier">Collier</div>
         <div class="personButton jobSelectButton" id="woodcutter">Woodcutter</div>
         <div class="personButton jobSelectButton" id="miner">Miner</div>
         <div class="personButton jobSelectButton" id="quarrier">Quarrier</div>
         <div class="personButton jobSelectButton" id="constable">Constable</div>
+        <div class="personButton jobSelectButton"  id="carpenter">Carpenter</div>
 
 
-        <div class="personButton">Train as soldier</div>
-        <div class="personButton">Move to standby</div>
+        <div class="personButton jobSelectButton" id="train">Train as soldier</div>
 
 
     
     
     
-    </div></div>
+    </div>
 
+    <div class="personOptionsDivButtons inactive" id="residenceOptions">
+
+        <div class="personButton residenceSelectButton" id="homeless" onclick="changeResidence('homeless')">Homeless</div>
+        <div class="personButton residenceSelectButton" id="hovel" onclick="changeResidence('hovel')" >Hovel</div>
+        <div class="personButton residenceSelectButton" id="longhouse" onclick="changeResidence('longhouse')">Longhouse</div>
+        <div class="personButton residenceSelectButton" id="cottage" onclick="changeResidence('cottage')">Cottage</div>
+        <div class="personButton residenceSelectButton" id="townhouse" onclick="changeResidence('townhouse')">Townhouse</div>
+        <div class="personButton residenceSelectButton" id="manor" onclick="changeResidence('manor')">Manor</div>
+
+
+    
+    
+    
+    </div>
+    <div class="personOptionsDivButtons inactive" id="moreActionsOptions">
+
+        <div class="personButton moreActionsSelectButton" id="execute" onclick="performExecution()">Execute</div>
+        <div class="personButton moreActionsSelectButton" id="imprisonment" onclick="changeImprisonment()" >Imprison</div>
+        
+
+
+    
+    
+    
+    </div>
+
+</div>
+ 
 
 
 </div>
+
+
+
 
 
 
@@ -259,32 +259,64 @@
         <div id="header">
             <div id="timeData">Season, Day, Notes</div>
             <div id="title">The Sylvan Concord</div>
-            <div id="pausePlay"></div>
+            <div id="playPause"></div>
         </div>
 
         <!-- Footer Section -->
         <div id="footer">
             <div id="tab1" class="footerTab" onclick="switchToConstruction()">Construction</div>
-            <div id="tab2" class="footerTab">Employment</div>
-            <div id="tab3" class="footerTab">Justice & Military</div>
-            <div id="tab4" class="footerTab">Legislature</div>
-            <div id="tab5" class="footerTab"></div>
-            <div id="tab6" class="footerTab">Research</div>
+            <div id="tab2" class="footerTab">Justice & Military</div>
+            <div id="tab3" class="footerTab">Legislature</div>
+            <div id="tab4" class="footerTab">Trade</div>
+            <div id="tab5" class="footerTab">Research</div>
         </div>
 
         <!-- Right Side Section -->
         <div id="leftSide">
             <div id="productionData">
-           <div id="productionTitle">State of production</div>
-           <div id="woodProduction" class="resourceDiv"> Wood:                    n/n                       n/month</div>
-           <div id="stoneProduction" class="resourceDiv">Stone:</div>
-           <div id="cropProduction" class="resourceDiv">Crops:</div>
-           <div id="cropProduction" class="resourceDiv">Meals:</div>
-           <div id="goldProduction" class="resourceDiv">Gold:</div>
-           <div id="ironProduction" class="resourceDiv">Iron:</div>
-           <div id="aleProduction" class="resourceDiv">Ale:</div>
-           <div id="charcoalProduction" class="resourceDiv">Charcoal:</div>
-           <div id="weaponsProduction" class="resourceDiv">Weapons:</div>
+            <div id="woodProduction" class="resourceDiv">
+            <div id="wood" class="resourceType">Wood</div>
+            <div id="woodMax" class="max"></div>
+            <div id="woodDaily" class="resourceDaily"></div>
+        </div>
+        <div id="stoneProduction" class="resourceDiv">
+            <div id="stone" class="resourceType">Stone</div>
+            <div id="stoneMax"  class="max"></div>
+            <div id="stoneDaily" class="resourceDaily"></div>
+        </div>
+        <div id="cropProduction" class="resourceDiv">
+            <div id="crops" class="resourceType">Crops</div>
+            <div id="cropsMax" class="max"></div>
+            <div id="cropsDaily" class="resourceDaily"></div>
+        </div>
+        <div id="mealProduction" class="resourceDiv">
+            <div id="meals" class="resourceType">Meals</div>
+            <div id="mealsMax" class="max"></div>
+            <div id="mealsDaily" class="resourceDaily"></div>
+        </div>
+        <div id="goldProduction" class="resourceDiv">
+            <div id="gold" class="resourceType">Gold</div>
+            <div id="goldMax" class="max"></div>
+            <div id="goldDaily" class="resourceDaily"></div>
+        </div>
+        <div id="ironProduction" class="resourceDiv">
+            <div id="iron" class="resourceType">Iron</div>
+            <div id="ironMax" class="max"></div>
+            <div id="ironDaily" class="resourceDaily"></div>
+        </div>
+        <div id="aleProduction" class="resourceDiv">
+            <div id="ale" class="resourceType">Ale</div>
+            <div id="aleMax" class="max"></div>
+            <div id="aleDaily" class="resourceDaily"></div>
+        </div>
+     
+
+        <div id="weaponsProduction" class="resourceDiv">
+            <div id="weapons" class="resourceType">Weapons</div>
+            <div id="weaponsMax"class="max"></div>
+            <div id="weaponsDaily" class="resourceDaily"></div>
+        </div>
+        
 
 
 
@@ -295,32 +327,17 @@
             </div>
             <div id="eventLog">
 <div id="eventLogTitle">Ledger of Occurences</div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div class="eventLogitem"></div>
-<div id="userInput"></div>
+<div id="eventLogContainer">
+
+
+    
+</div>
 
 
             </div>
-<div id="miscData">
-<div>Population</div>
-<div>Standby Laborers</div>
-<div>Employment Rate</div>
-<br>
-<div>Avg Happiness</div>
-<div>Avg Health</div>
-<br>
+<div id="progress">
 
-<div>Prisoners</div>
-<div>Working Prisoners</div>
-
+<div id="constructionProgress"></div>
 
 
 

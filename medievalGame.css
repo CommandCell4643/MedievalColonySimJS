@@ -15,7 +15,10 @@ Hover:
 
 
 
+body{
+    box-sizing: border-box;
 
+}
 img{
     width: 30%;
 height: auto;
@@ -87,8 +90,8 @@ body{
         font-size: 100%;
         font-weight: 600;
         padding: 2px;
-        color: white;
-        margin-top: 10px;
+        color: rgb(184, 184, 184);
+                margin-top: 10px;
         transition: background-color 0.3s ease, color .3s ease, transform .3s ease;
 margin-bottom: 1%;     
     }
@@ -115,7 +118,7 @@ margin-bottom: 1%;
         font-size: 100%;
         padding: 1%;
      border-radius: 8px;
-        color: white;
+     color: rgb(184, 184, 184);
         background-color: rgb(40, 40, 40);
         margin-bottom: 1%;
         font-weight: 400;
@@ -128,8 +131,8 @@ margin-bottom: 1%;
         font-size: 100%;
         padding: 1%;
      border-radius: 8px;
-        color: white;
-        background-color: rgb(40, 40, 40);
+     color: rgb(184, 184, 184);
+             background-color: rgb(40, 40, 40);
         margin-bottom: 1%;
       display: grid;
       grid-template-areas: "filterName filterToggle";
@@ -175,13 +178,13 @@ margin-bottom: 1%;
         margin-right: 5px;
         border-radius: 8px;
         background-color: rgb(40, 40, 40);
-        color:white;
+        color: rgb(184, 184, 184);
         padding: 5%;
        text-align: center;
     }
     
 
-#miscData{
+#progress{
     background-color: rgb(40, 40, 40);
         padding: 3%;
     display: flex;
@@ -198,7 +201,7 @@ margin-bottom: 1%;
     display: grid;
     height: auto;
     grid-template-columns: 1fr ;
-    grid-template-rows: .9fr 1fr 1fr;
+    grid-template-rows: .8fr 1.3fr 1fr;
 gap: 2px;
 }
 
@@ -215,7 +218,7 @@ margin: 2%;
 #eventLog{
     background-color: rgb(40, 40, 40);
     display: grid;
-    grid-template-rows: .7fr repeat(10, 1fr) 1fr;
+    grid-template-rows: .7fr repeat(15, 1fr);
     margin: 2%;
     padding-top: 5px;
     border-radius: 3px;
@@ -224,9 +227,14 @@ overflow: hidden;
 
 }
 
+
+#eventLogContainer{
+    color:rgb(184,184,184)
+}
+
 .eventLogitem{
     background-color: rgb(40, 40, 40);
-    margin: 0;
+    margin: 4px;
 }
 #userInput{
     background-color: rgb(34, 34, 33);
@@ -262,7 +270,7 @@ padding: 1.5%;
     display: grid;
     grid-template-columns: 1fr 2fr 0.5fr;
     grid-template-areas: 
-        "time title pauseplay";
+        "time title playPause";
     height: auto;
 }
 
@@ -290,12 +298,16 @@ justify-content: center;    display: flex;
     color: rgb(220, 161, 0)
 }
 
-#pausePlay {
-    margin: 5px;
-    grid-area: pauseplay;
+#playPause {
+margin: 5px;
+    grid-area: playPause;
     color: rgb(220, 161, 0);
     background-color: rgb(40, 40, 40);
     text-align: center;
+    display: flex;
+    font-weight: 900;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -319,7 +331,7 @@ justify-content: center;    display: flex;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: rgb(184, 184, 184);
 }
 .footerTab:hover{
     transform: scaleX(1.1);
@@ -351,13 +363,12 @@ justify-content: center;    display: flex;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr .2fr;
-gap: 3%;
+gap: 2%;
 padding:5% 6% 0% 6%;
     grid-template-areas: 
     
     "residential residential"
     "storage storage"
-    "knowledge knowledge"
     "production production"
     "food food"
     "justice justice"
@@ -390,10 +401,7 @@ grid-area: residential;
 grid-template-columns: 1fr;
 grid-template-rows: 1fr 3fr;
 }
-#production{
-    grid-template-columns: 1fr;
-    grid-template-rows: .5fr 3fr;
-}
+
 .constructionDivTitle{
     color:rgb(220, 161, 0);
     background-color:  rgb(48, 47, 44);
@@ -479,7 +487,7 @@ align-items: center;
 justify-content: center;
 font-size: 90%;
 font-family:Verdana, Geneva, Tahoma, sans-serif;
-color: white;
+color: rgb(184, 184, 184);
 }
 .constructionButton:hover{
     background-color: rgb(63, 64, 61);
@@ -532,7 +540,7 @@ input[type="checkbox"]:checked + .checkbox-container::after {
     color: red;
 }
 .sufficient{
-    color: white;
+    color: rgb(184, 184, 184);
 }
 
 
@@ -540,7 +548,7 @@ input[type="checkbox"]:checked + .checkbox-container::after {
     position: fixed;           
     background-color: rgb(40, 40, 40);
 
-    color: #fff;
+    color: rgb(184, 184, 184);
     padding: 5px 10px;
     border-radius: 4px;
     white-space: nowrap;
@@ -675,7 +683,7 @@ align-items: center;
 justify-content: center;
 font-size: 90%;
 font-family:Verdana, Geneva, Tahoma, sans-serif;
-color: white;
+color: rgb(184, 184, 184);
 }
 .personButton:hover{
     background-color: rgb(63, 64, 61);
@@ -712,4 +720,92 @@ color: white;
 
 .inactive{
     display: none;
+}
+
+
+#productionData{
+    color: rgb(184, 184, 184);
+      background-color: rgb(40, 40, 40);
+      display: grid;
+      grid-template-rows: repeat(9,1fr);
+grid-template-columns: 1fr;
+text-align: center;
+padding-top: 2%;
+padding-bottom: 2%;
+
+  }
+#productionTitle{
+    color: rgb(220, 161, 0);
+
+}
+
+.resourceDiv{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+grid-template-rows: 1fr;
+grid-template-areas: "type max daily";
+padding: 0%;
+gap: .2%;
+transition: .2s ease background-color;
+}
+
+
+.resourceType{
+    grid-area: type;
+    
+}
+.max{
+    grid-area: max;
+}
+.resourceDaily{
+    grid-area: daily;
+}
+.resourceDiv:hover{
+    background-color: rgb(63, 64, 61);
+
+}
+.resourceType:hover, .max:hover, .resourceDaily:hover{
+    background-color: rgb(82, 82, 82);
+
+}
+
+.resourceType, .max, .resourceDaily{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s ease background-color;
+
+}
+#employment{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr   1fr .4fr;
+gap: 2%;
+padding:5% 6% 0% 6%;
+height: 100%;
+
+
+}
+
+#standbyChoices{
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-rows: .33fr 1fr 1fr 1fr 1fr;
+    background-color:  rgb(48, 47, 44);
+    gap: 2px;
+    grid-template-areas: 
+    "title title title title title title"
+
+    ;
+}
+#standbyChoicesTitle{
+    grid-area: title;
+    color:rgb(220, 161, 0);
+    background-color:  rgb(48, 47, 44);
+    text-align: left;
+    font-size: 100%;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    padding-left: 10px;
 }
