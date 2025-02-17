@@ -7,10 +7,19 @@ switchToConstruction()
 document.addEventListener("click", () => {
     Promise.resolve().then(updateInformation);
 });
+document.addEventListener("contextmenu", () => {
+    Promise.resolve().then(updateInformation);
+});
 
+let activeMercenaries=[]
+let inactiveMercenaries=[]
 
+let mercenaryCost = 0
+let mercenaryPower = 0
 let day = 0
 
+let maxPrisoners = 0;
+let taxRate = 0;
 
 let woodDaily;
 let ironDaily;
@@ -25,11 +34,11 @@ let personObj;
 let wood = 100
 let stone = 100
 let crops = 1000
-let meals = 100
-let gold = 0
+let meals = 100000  
+let gold = 100
 let iron = 0
 let ale = 0
-let weapons = 0
+let weapons = 5
 
 let homelessSpace = '∞'
 let hovelSpace = 0
@@ -49,11 +58,11 @@ let manorResidents = 0
 let woodMax = 150
 let stoneMax = 100
 let cropsMax = 1000
-let mealsMax = 5000
-let goldMax = 0
+let mealsMax = 50000
+let goldMax = 10000
 let ironMax = 0
 let aleMax = 0
-let weaponsMax = 0
+let weaponsMax = 5
 
 
 
@@ -89,7 +98,7 @@ let woodcutterMax = 0;
 let minerMax = 0;
 let quarrierMax = 0;
 let constableMax = 0;
-let soldierMax = 0;
+let soldierMax = 5;
 
 let currentBuilding;
 
@@ -225,16 +234,15 @@ maleNames.splice(randomNum, 1)
 
     let morale = 50
 
-    let moraleBreakDown = [new moraleType("Initial Optimism",30,200)]
+    let moraleBreakDown = [new moraleType("Initial Optimism",30,200,"initial")]
+    let healthBreakDown = []
 
 
 
-    let health = Math.floor(Math.random() * (91 - 50)) + 50;
+    let health = 100
 
-    let sick = false
-    let wounded = false  
 
-    let newbie = new person(gender,chosenName, employment, age, residence, morale, health, sick, wounded, moraleBreakDown,
+    let newbie = new person(gender,chosenName, employment, age, residence, morale, health, moraleBreakDown,healthBreakDown
     )
     
 everyone.push(newbie)
@@ -256,16 +264,27 @@ selectPerson(event.target)
 })
 }
 class moraleType{
-    constructor(name,amount,daysActive){
+    constructor(name,amount,daysActive,type){
     this.name = name
     this.amount = amount
     this.daysActive = daysActive
+    this.type=type
 
     }
 }
 
+class healthType{
+    constructor(name,severity,type){
+        this.name = name
+        this.daysActive = 1
+        this.severity = severity
+        this.type = type
+    
+        }
+}
+
 class person{
-    constructor(gender, name, employment, age, residence, morale,  health, sick, wounded, moraleBreakDown
+    constructor(gender, name, employment, age, residence, morale,  health, moraleBreakDown,healthBreakDown
     ){
         this.div = null
 this.name = name
@@ -274,11 +293,10 @@ this.employment = employment
 this.age = age
 this.residence = residence
 this.moraleBreakDown = moraleBreakDown
+this.healthBreakDown = healthBreakDown
 this.morale = morale
 
 this.health = health    //0 - 100 based on plague, age, 
-this.sick = sick
-this.wounded = wounded
 
 this.foodStatus = 7
 
@@ -289,17 +307,17 @@ this.foodStatus = 7
         if(meals>=3){
             this.foodStatus++
             meals-=3
-            this.addMoraleEffect(new moraleType("Ate Meal",5,1))
+            this.addMoraleEffect(new moraleType("Ate Meal",5,1,'food'))
             
 
         }else if(crops >=30){
             this.foodStatus++
             crops-=30
-            this.addMoraleEffect(new moraleType("Ate Raw Crops",-5,1))
+            this.addMoraleEffect(new moraleType("Ate Raw Crops",-5,1,'food'))
  
         }else{
             this.foodStatus--
-            this.addMoraleEffect(new moraleType("Didn't Eat",-15,1))
+            this.addMoraleEffect(new moraleType("Didn't Eat",-15,1,'food'))
 
             if(this.foodStatus === 0){
                 killPerson(this)
@@ -314,50 +332,127 @@ this.foodStatus = 7
     
 
     }
+    moodCheckTaxes(){
+        switch(taxRate){
+    case 0: this.addMoraleEffect(new moraleType("No taxes",10,1,'taxes'))
+break;
+    case 1: this.addMoraleEffect(new moraleType("Low taxes",5,1,'taxes'))
+    break;
+    case 2: this.addMoraleEffect(new moraleType("Fair taxes",3,1,'taxes'))
+break;
+    default:this.addMoraleEffect(new moraleType("High taxes",(-5*(taxRate-2)),1,'taxes'))
+
+        }
+    }
 
     moodCheckResidence(){
-        if(this.residence == 'homeless'){
-            this.addMoraleEffect(new moraleType("Homeless",-15,""))
-        }else if(this.residence == 'hovel'){
-            this.addMoraleEffect(new moraleType("Living in Hovel",-10,""))
-        }else if(this.residence == 'longhouse'){
-            this.addMoraleEffect(new moraleType("Living in Longhouse",-5,""))
-        }else if(this.residence == 'townhouse'){
-            this.addMoraleEffect(new moraleType("Living in Townhouse",5,""))
-        }else if(this.residence == 'manor'){
-            this.addMoraleEffect(new moraleType("Living in Manor",20,""))
+        if(this.residence === 'homeless'){ 
+            this.addMoraleEffect(new moraleType("Homeless",-15,1,'residence'))
+        }else if(this.residence === 'hovel'){
+            this.addMoraleEffect(new moraleType("Living in Hovel",-10,1,'residence'))
+        }else if(this.residence ==='longhouse'){
+            this.addMoraleEffect(new moraleType("Living in Longhouse",-5,1,'residence'))
+        }else if(this.residence === 'townhouse'){
+            this.addMoraleEffect(new moraleType("Living in Townhouse",5,1,'residence'))
+        }else if(this.residence === 'manor'){
+            this.addMoraleEffect(new moraleType("Living in Manor",20,1,'residence'))
         }
         return;
+    }
+
+
+    moodCheckHealth(){
+        if(this.health>=90){
+            this.addMoraleEffect(new moraleType('Amazing health',10,1,'health'))
+        }else if(this.health>=80){
+            this.addMoraleEffect(new moraleType('Decent health',5,1,'health'))
+        }else if(this.health>=70){
+            this.addMoraleEffect(new moraleType('Mediocre health',3,1,'health'))
+        }else if(this.health>=20){
+            this.addMoraleEffect(new moraleType('Poor health',Math.floor((this.health-100) /3),1,'health'))
+
+        }else{
+            this.addMoraleEffect(new moraleType('Detrimental health',-30,1,'health'))
+
+        }
+    }
+addHealthEffect(effect){
+    let index = this.healthBreakDown.findIndex(e => e.name === effect.name);
+
+    if (index !== -1) {
+        
+    }else{
+        this.healthBreakDown.push(effect); 
+    }
+        
+        this.updateHealth(true)
+
+
+    }
+    //everyone[0].addHealthEffect(new healthType('plague',5,'plague',))
+
+   
+
+    updateHealth(skip){
+        this.health = 100
+        this.healthBreakDown.forEach(effect => {
+            this.health-=healthDecayPlagueWounded(effect)
+
+
+           if(skip===false){
+                effect.daysActive++
+           }
+        })
+
+        let oldAgeDebuff = Math.floor(healthDecayAge(this.age))
+
+        this.health -=  oldAgeDebuff
+
+if(this.health<=0){
+    addEventLog(`${this.name} has died of health concerns`)
+    killPerson(this)
+    switchToConstruction()
+}
+
+
+        this.health = Math.max(0, Math.min(100, this.health));
+
+
+
     }
     
 
     addMoraleEffect(effect){
-        let index = this.moraleBreakDown.findIndex(e => e.name === effect.name);
+       
+        let index = this.moraleBreakDown.findIndex(e => e.type === effect.type);
 
     if (index !== -1) {
-        this.morale -= this.moraleBreakDown[index].amount;
         this.moraleBreakDown.splice(index, 1);
     }
         this.moraleBreakDown.push(effect); 
+        
         this.updateMorale(true)
+
 
     }
 
     updateMorale(skip) {
         this.morale=50
          this.moraleBreakDown.forEach(effect => {
-            this.morale += effect.amount;
-            console.log(9)
         if(skip===false){
             if(typeof effect.daysActive !== 'string'){
                 effect.daysActive--;        
+
                 if(effect.daysActive < 0){
                     this.morale -= effect.amount
                     let index = this.moraleBreakDown.findIndex(e => e.name === effect.name);
                     this.moraleBreakDown.splice(index, 1);
-                }
+                }                
+
             }  
         }
+        this.morale += effect.amount;
+
           this.morale = Math.max(0, Math.min(100, this.morale));
 
             
@@ -368,11 +463,24 @@ this.foodStatus = 7
 
 }
 let everyone = []
-let citizens = []
+let citizens = []  
 let prisoners = []
 
+function healthDecayAge(a, k=5, r=0.08){
+    return Math.max(0,k * Math.exp(r * (a - 20))-5);
 
-
+}
+ function determinePeoplePlagued(){
+    let peoplePlagued = 0
+    for(let i of citizens){
+        for(let j of i.healthBreakDown){
+            if(j.type == 'plague'){
+                peoplePlagued++
+            }
+        }
+    }
+    return peoplePlagued;
+ }
 
 function killPerson(person) {
     let index = everyone.findIndex(e => e.name === capitalizeWords(person.name));
@@ -392,9 +500,110 @@ function killPerson(person) {
 personObj = ''
     document.getElementById(person.name).remove();
 }
+function calculateTreatment(){
+    console.log(8888)
+
+    let poorCitizens = findPoor(citizens)
+    let poorPrisoners= findPoor(prisoners)
+    let tempArrayCitizens = poorCitizens.sort((a, b) => a.health - b.health)
+    let tempArrayPrisoners = poorPrisoners.sort((a, b) => a.health - b.health)
+    let orderTreatment = tempArrayCitizens.concat(tempArrayPrisoners)
+    console.log(orderTreatment)
+    for(let i = 0;i<jobCounts.doctor; i++){
+        if(orderTreatment[i]){
+            treatPatient(orderTreatment[i])
+        }
+   
+    }
+}
+function findPoor(array){
+    let newArray = []
+
+for(let i of array){
+    if (i.healthBreakDown.some(e => e.type === "plague" || e.type === "wounded")) {
+        newArray.push(i)
+    }
+    
+} 
+return newArray;
+}
+
+function treatPatient(person){
+
+    if(person.healthBreakDown.some(e => e.type === 'plague')){
+        let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
+        let severity = person.healthBreakDown[index].severity
+        if(severity === 1){
+        if(Math.random()<.14){
+            let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
+            person.healthBreakDown.splice(index,1)
+            person.addMoraleEffect('Cured',10,100,'cure')
+        }
 
 
-for(let i = 0; i<5; i++){
+        }else if(severity === 3){
+            if(Math.random()<.11){
+                let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
+                person.healthBreakDown.splice(index,1)
+                person.addMoraleEffect('Cured',10,100,'cure')
+            }
+        }else if(severity === 5){
+
+            if(Math.random()<.7){
+                let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
+                person.healthBreakDown.splice(index,1)
+                person.addMoraleEffect('Cured',10,100,'cure')
+            }
+
+
+        }else if(severity === 10){
+            if(Math.random()<.3){
+                let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
+                person.healthBreakDown.splice(index,1)
+                person.addMoraleEffect('Cured',10,100,'cure')
+            }
+    }
+} else if(person.healthBreakDown.some(e => e.type === 'wounded')){
+    let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+        let severity = person.healthBreakDown[index].severity
+        if(severity === 1){
+        if(Math.random()<.14){
+            let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+            person.healthBreakDown.splice(index,1)
+            person.addMoraleEffect('Healed',10,100,'heal')
+        }
+
+
+        }else if(severity === 3){
+            if(Math.random()<.11){
+                let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+                person.healthBreakDown.splice(index,1)
+                person.addMoraleEffect('Healed',10,100,'heal')
+            }
+        }else if(severity === 5){
+
+            if(Math.random()<.7){
+                let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+                person.healthBreakDown.splice(index,1)
+                person.addMoraleEffect('Healed',10,100,'heal')
+            }
+
+
+        }else if(severity === 10){
+            if(Math.random()<.3){
+                let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+                person.healthBreakDown.splice(index,1)
+                person.addMoraleEffect('Healed',10,100,'heal')
+            }
+    }
+}
+
+}
+function  healthDecayPlagueWounded(effect){
+    return Math.floor(effect.severity*Math.exp(0.15*effect.daysActive));
+}
+
+for(let i = 0; i<15; i++){
     makeNewPerson()
     
 }
@@ -452,7 +661,6 @@ function newBuilding(name) {
         let workNeeded = parseInt(document.getElementById("work").innerText.split(" ")[0], 10);
 
         currentBuilding = new building(name, workNeeded);
-        console.log(currentBuilding);
     }else{
         alert('finish current building first')
     }
@@ -541,10 +749,10 @@ function updateTooltipData(){
         }) 
         div.innerHTML = text.join('<br>');
     }else if(document.getElementById('moodBuff')){
-        console.log(7)
         let div = document.getElementById('moodBuff')
         div.innerHTML = ''
         if(typeof personObj !== 'string'){
+
             for(let i of personObj.moraleBreakDown){
                 let newMood = document.createElement('div')
                 newMood.innerText = `${i.name} | ${i.amount}`
@@ -560,6 +768,28 @@ function updateTooltipData(){
         }
         
     
+    }else if(document.getElementById('healthBuff')){
+        let div = document.getElementById('healthBuff')
+        div.innerHTML = ''
+        if(typeof personObj !== 'string'){
+            let newHealth = document.createElement('div')
+                newHealth.innerText = `Growing Old | ${Math.floor(healthDecayAge(personObj.age))}`
+                
+                newHealth.style.color = 'red'
+
+                div.appendChild(newHealth)
+            for(let i of personObj.healthBreakDown){
+                let newHealth = document.createElement('div')
+                newHealth.innerText = `${i.name} | ${healthDecayPlagueWounded(i)}`
+                
+                newHealth.style.color = 'red'
+
+                div.appendChild(newHealth)
+    
+            }
+        }
+    }else if(document.getElementById('power')){
+        
     }
 }
 
@@ -629,21 +859,25 @@ changeToPerson(personObj)
             if(typeof personObj === "object"){
             
                 let numberUrgent = 0;
-                if (personObj.sick === true) {
-                    document.getElementById("sickUrgent").style.display = "flex";
+                
+                    if(personObj.healthBreakDown.some(e => e.type === 'plague')){
+                        document.getElementById("sickUrgent").style.display = "flex";
                     numberUrgent++
-                } else {
-                    document.getElementById("sickUrgent").style.display = "none";
-                }
+                    }else{
+                        document.getElementById("sickUrgent").style.display = "none";
+
+                    }
+                    if(personObj.healthBreakDown.some(e => e.type === 'wound')){
+                        document.getElementById("woundedUrgent").style.display = "flex";
+                    numberUrgent++
+                    }else{
+                        document.getElementById("woundedUrgent").style.display = "none";
+
+                    }                
                 
                 
-                if (personObj.wounded === true) {
-                    document.getElementById("woundedUrgent").style.display = "flex";
-                    numberUrgent++
-    
-                } else {
-                    document.getElementById("woundedUrgent").style.display = "none";
-                }
+                
+                
                 
                 if (personObj.starving === true) {
                     document.getElementById("starvingUrgent").style.display = "flex";
@@ -732,8 +966,9 @@ changeToPerson(personObj)
                         }
                         break;
                     case "soldier":
-                        if (jobCounts.soldier < soldierMax && personObj.employment !== "Soldier") {
+                        if (jobCounts.soldier < soldierMax && personObj.employment !== "Soldier"&&weapons>0) {
                             personObj.employment = "soldier";
+                            weapons--
                         }
                         break;
                     case "actor":
@@ -862,7 +1097,6 @@ function switchToPersonOptionDivButtons(id){
     for(let i of document.getElementsByClassName("personOptionsDivButtons")){
         i.classList.add("inactive")
     }
-    console.log(id)
 document.getElementById(id).classList.remove("inactive")
 }
 
@@ -883,17 +1117,6 @@ document.getElementById("tab1").classList.add("selected")
 
 
 
-function switchToEmployment(){
-    for(let i of document.getElementsByClassName("mainMenu")){
-        i.style.display = "none"
-    }
-    for(let j of document.getElementsByClassName("footerTab")){
-        j.classList.remove("selected")
-    }
-    document.getElementById("employment").style.display = "grid"
-    document.getElementById("tab2").classList.add("selected")
-}
-
 
 function switchToJustice(){
     for(let i of document.getElementsByClassName("mainMenu")){
@@ -902,11 +1125,21 @@ function switchToJustice(){
     for(let j of document.getElementsByClassName("footerTab")){
         j.classList.remove("selected")
     }
-    document.getElementById("justice").style.display = "grid"
-    document.getElementById("tab3").classList.add("selected")
+    document.getElementById("justiceMilitary").style.display = "grid"
+    document.getElementById("tab2").classList.add("selected")
 }
 
-
+function switchToLegislature(){
+    for(let i of document.getElementsByClassName("mainMenu")){
+        i.style.display = "none"
+    }
+    for(let j of document.getElementsByClassName("footerTab")){
+        j.classList.remove("selected")
+    }
+    document.getElementById("legislature").style.display = "grid"
+    document.getElementById("tab3").classList.add("selected")
+    
+}
 
 
 
@@ -999,14 +1232,19 @@ if(citizens.length === 0){
     aleDaily = jobCounts.brewer * 10;
     stoneDaily = jobCounts.quarrier * 2;
     weaponsDaily = jobCounts.blacksmith * 1;
-    let taxrate = 0
-    goldDaily = taxrate * citizens.length
+    goldDaily = taxRate * citizens.length 
 
      let woodConsumed = jobCounts.blacksmith * 2; 
     let cropsConsumed = jobCounts.brewer * 400 + jobCounts.cook * 200;
+    let aleConsumed = jobCounts.barkeep*30
+    let goldConsumed= mercenaryCost
+
+    
 
      woodDaily = woodDaily - woodConsumed;
      cropsDaily = cropsDaily - cropsConsumed;
+     aleDaily = aleDaily-aleConsumed;
+     goldDaily = goldDaily-goldConsumed
 
    
 
@@ -1022,6 +1260,7 @@ if(citizens.length === 0){
     
 
 
+    updateJobAndResidence('soldier', jobCounts.soldier, soldierMax);
 
     updateJobAndResidence('actor', jobCounts.actor, actorMax);
     updateJobAndResidence('doctor', jobCounts.doctor, doctorMax);
@@ -1076,6 +1315,17 @@ if(citizens.length === 0){
         element.innerText = `${type.charAt(0).toUpperCase() + type.slice(1)} ${count}/∞`;
     }
 
+   
+    for(let i of everyone){
+        i.moodCheckTaxes()
+        i.moodCheckHealth()
+
+        i.moodCheckResidence()
+        i.updateMorale(true)
+    }
+    for(let i of everyone){
+        i.updateHealth(true)
+    }
     
 updateTooltipData()
          
@@ -1086,27 +1336,54 @@ function updateDailyData() {
     day++
     document.getElementById('timeData').innerText = day
 
-
+if(day%365 === 0){
+    for(let i of everyone){
+        i.age++
+    }
+}
  
 updateConstruction()
 updateFood()
 updateResources()
+addRandomEvent()
+checkPrisonBreak()
+updateHealth()
+plagueSpread()
 
-updateInformation()
-}
 updateMorale()
 
 
+updateInformation()
+}
+
+for(let i of everyone){
+    i.moodCheckHealth()
+
+    i.moodCheckTaxes()
+    i.moodCheckResidence()
+    i.updateMorale(true)
+}
 function updateFood(){
     for(let i of everyone){
         i.eatfood()
     }
 }
+function updateHealth(){
 
+    for(let i of everyone){
+        i.updateHealth(false)
+    }
+    if(typeof personObj === "object" && document.getElementById('personMenu').style.display !== "none"){
+ changeToPerson(personObj)
+    }
+}
 
 function updateMorale(){
 
     for(let i of everyone){
+        i.moodCheckTaxes()
+        i.moodCheckHealth()
+
         i.moodCheckResidence()
         i.updateMorale(false)
     }
@@ -1121,7 +1398,7 @@ function updateConstruction(){
 if(typeof currentBuilding === "object"){
     let finished = currentBuilding.progress();
     if(finished){
-
+addEventLog(`${currentBuilding.name} was completed`)
         switch(currentBuilding.name){
             case 'Hovel': hovelSpace += 3;
             break;
@@ -1134,13 +1411,13 @@ if(typeof currentBuilding === "object"){
             case 'Manor': townhouseSpace += 2;
             break;
 
-            case 'Granary': cropsMax += 500;
+            case 'Granary': cropsMax += 1500;
             break;
             case 'Shed': woodMax+=100, stoneMax+=80, ironMax+=40, weaponsMax+=5;
             break;
-            case 'Cold Room': mealsMax+=40, aleMax+=30
+            case 'Cold Room': mealsMax+=400, aleMax+=30
             break;
-            case 'Bank': goldMax+=100
+            case 'Bank': goldMax+=300
             break;
 
             case 'Lumber Hut': woodcutterMax+=2
@@ -1157,6 +1434,17 @@ if(typeof currentBuilding === "object"){
             case 'Kitchen': cookMax+=1
             break;
             case 'Brewery': brewerMax+=1
+            break;
+
+
+            case 'Guardhouse': constableMax+=4
+            break;
+            case 'Barracks':soldierMax+=4
+            break;
+            case 'Prison':maxPrisoners+=8
+
+            case 'Infirmary': doctorMax+=2
+            break;
 
 
 
@@ -1190,14 +1478,19 @@ function updateResources(){
      aleDaily = jobCounts.brewer * 10;
      stoneDaily = jobCounts.quarrier * 2;
      weaponsDaily = jobCounts.blacksmith * 1;
-     let taxrate = 0
-     goldDaily = taxrate * citizens.length
+     goldDaily = taxRate * citizens.length
     
-    let woodConsumed = jobCounts.blacksmith * 2; 
-    let cropsConsumed = jobCounts.brewer * 400 + jobCounts.cook * 200;
-
-     woodDaily = woodDaily - woodConsumed;
-     cropsDaily = cropsDaily - cropsConsumed;
+     let woodConsumed = jobCounts.blacksmith * 2; 
+     let cropsConsumed = jobCounts.brewer * 400 + jobCounts.cook * 200;
+     let aleConsumed = jobCounts.barkeep*30
+     let goldConsumed= mercenaryCost
+ 
+     
+ 
+      woodDaily = woodDaily - woodConsumed;
+      cropsDaily = cropsDaily - cropsConsumed;
+      aleDaily = aleDaily-aleConsumed;
+      goldDaily = goldDaily-goldConsumed
 
    
 
@@ -1209,6 +1502,12 @@ function updateResources(){
     ale = updateResource("ale", aleDaily, ale, aleMax,false);
     weapons = updateResource("weapons", weaponsDaily, weapons, weaponsMax,false);
     meals = updateResource("meals", mealsDaily, meals, mealsMax,false);
+
+    if(ale>0 && jobCounts.barkeep>0){
+        for(let i of everyone){
+            i.addMoraleEffect("Supplied Taverns",5*jobCounts.barkeep,1,'tavern')
+        }
+    }
 
    
 }
@@ -1233,7 +1532,7 @@ function updateResource(resourceName, dailyAmount, currentAmount, maxAmount, ski
     dailyElement.innerText = `${dailyAmount} / day`;
 
     document.getElementById(`${resourceName}Max`).innerText = `${currentAmount}/${maxAmount}`;
-
+currentAmount = Math.max(0,currentAmount)
     return currentAmount;
 }
 
@@ -1246,7 +1545,7 @@ function addEventLog(message) {
 
     logContainer.appendChild(newLog);
 
-    while (logContainer.children.length > 15) {
+    while (logContainer.children.length > 8) {
         logContainer.removeChild(logContainer.firstChild);
     }
 }
@@ -1255,8 +1554,29 @@ function addEventLog(message) {
 
 
 function addRandomEvent(){
+    const rand = Math.floor(Math.random() * 300); 
 
+    if (rand < 10 || rand < 5 || rand < 3 || rand < 1) {
+        if (rand <1) {
+
+        } else if (rand < 3) {
+
+        } else if (rand < 5) {
+
+        } else if (rand < 10) {
+
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
 function checkPrisonBreak() {
     if (prisoners.length === 0) return; 
 
@@ -1304,15 +1624,15 @@ function triggerPrisonBreak(prisonBreakChance){
 }
 
 
-function changeImprisonment(){
+function changeImprisonment(person){
     if(jobCounts.constable >=0){
-        if(personObj.employment !== "imprisoned"){
-            personObj.employment = "imprisoned"
-            personObj.residence = "imprisoned"
-            let index = citizens.findIndex(e => e.name === personObj.name)
+        if(person.employment !== "imprisoned"){
+            person.employment = "imprisoned"
+            person.residence = "imprisoned"
+            let index = citizens.findIndex(e => e.name === person.name)
             citizens.splice(index,1)
     
-            prisoners.push(personObj)
+            prisoners.push(person)
     
             
     
@@ -1322,12 +1642,12 @@ function changeImprisonment(){
     
     
         }else{
-     personObj.employment = "unemployed"
-            personObj.residence = "homeless"
-            let index = prisoners.findIndex(e => e.name === personObj.name)
+     person.employment = "unemployed"
+            person.residence = "homeless"
+            let index = prisoners.findIndex(e => e.name === person.name)
             prisoners.splice(index,1)
     
-            citizens.push(personObj)
+            citizens.push(person)
         }
     }
  
@@ -1365,14 +1685,13 @@ function performExecution(){
         addEventLog(`Prisoner ${personObj.name} was killed in a ${moraleName} execution`)
         moraleName = `${moraleName} public execution`
         for(let i of citizens){
-            i.addMoraleEffect(new moraleType(moraleName,moraleAmount,20))
+            i.addMoraleEffect(new moraleType(moraleName,moraleAmount,20,'execution'))
         }
 
     }else{
         let rand = Math.random()
         let moraleAmount = 0
         let moraleName = ''
-        console.log(rand)
         if(rand<0.05){
             moraleAmount = 10
          moraleName = 'Spectacular'
@@ -1397,10 +1716,398 @@ function performExecution(){
         addEventLog(`Citizen ${personObj.name} was killed in a ${moraleName} execution`)
         moraleName = `${moraleName} public execution`
         for(let i of citizens){
-            i.addMoraleEffect(new moraleType(moraleName,moraleAmount,20))
+            i.addMoraleEffect(new moraleType(moraleName,moraleAmount,20, 'execution'))
         }
 
     }
 killPerson(personObj)
 switchToConstruction()
 }
+
+
+
+
+
+const taxButton = document.getElementById("taxes");
+
+taxButton.addEventListener("click", function (event) {
+    taxRate = (taxRate + 1) % 11; 
+    updateTaxDisplay();
+});
+
+taxButton.addEventListener("contextmenu", function (event) {
+    event.preventDefault(); 
+    if (taxRate > 0) {
+        taxRate -= 1; 
+    }
+    updateTaxDisplay();
+});
+updateTaxDisplay()
+function updateTaxDisplay() {
+    taxButton.textContent = `Tax/Capita: ${taxRate}`;
+}
+
+
+
+rerollCompanies() 
+for(let i of document.getElementsByClassName('mercenaryButton')){
+    i.addEventListener('contextmenu',function(event){
+        forfeitContract(event.target.id)
+    })
+}
+function rerollCompanies() {
+    const companies = Array.from(document.querySelectorAll('.mercenaryButton')); 
+    const unselectedCompanies = companies.filter(company => !company.classList.contains('selected'));
+
+    unselectedCompanies.forEach(company => {
+        let power = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+        let cost = (Math.random() * (1.2 - 0.7) + 0.7).toFixed(1) * power;
+
+        const powerElement = company.querySelector('.power');
+        const costElement = company.querySelector('.cost');
+
+        if (powerElement && costElement) {
+            powerElement.innerText = `Power: ${power}`; 
+            costElement.innerText = `Cost: ${cost}`; 
+        }
+
+        
+
+        company.setAttribute('data-value', `${company.textContent.trim()}<hr> <div id='cost'> Daily Cost: ${Math.round(cost)}</div><hr><div id='upCost'> Upfront Cost: ${Math.round(cost)*40}</div><hr><div id='power'> Soldiers: ${power}</div>`);
+        company.setAttribute('data-cost',Math.round(cost))
+        company.setAttribute('data-power',power)
+        company.setAttribute('data-upCost',Math.round(cost)*40)
+        if(gold<Math.round(cost)*40){
+            company.setAttribute('data-value', `${company.textContent.trim()}<hr> <div id='cost'> Daily Cost: ${Math.round(cost)}</div><hr><div id='upCost' class='insufficient'> Upfront Cost: ${Math.round(cost)*40}</div><hr><div id='power'> Soldiers: ${power}</div>`);
+
+        }
+
+    });
+}
+
+function acceptContract(company){
+    let upCost= parseInt(element.getAttribute('data-upCost'))
+
+if(gold>upCost){
+    let element= document.getElementById(company)
+    if(!element.classList.contains('selected')){
+     element.classList.add('selected')
+     let power= parseInt(element.getAttribute('data-power'))
+     let cost= parseInt(element.getAttribute('data-cost'))
+ gold-=upCost
+     mercenaryCost+=cost
+     mercenaryPower+=power
+     console.log(power)
+ 
+     element.setAttribute('data-value', `${element.textContent}<hr> <div id='cost'> Daily Cost: ${Math.round(cost)}</div><hr><div id='upCost' >Selected</div><hr><div id='power'> Soldiers: ${power}</div>`);
+ 
+ 
+    }
+}
+   
+
+
+}
+
+function forfeitContract(company){
+    let element= document.getElementById(company)
+    if(element.classList.contains('selected')){
+     element.classList.remove('selected')
+     let power= parseInt(element.getAttribute('data-power'))
+     let cost= parseInt(element.getAttribute('data-cost'))
+     mercenaryCost-=cost
+     mercenaryPower-=power
+     if(gold<Math.round(cost)*15){
+        element.setAttribute('data-value', `${element.textContent.trim()}<hr> <div id='cost'> Daily Cost: ${Math.round(cost)}</div><hr><div id='upCost' class='insufficient'> Upfront Cost: ${Math.round(cost)*15}</div><hr><div id='power'> Soldiers: ${power}</div>`);
+
+    }else{
+        element.setAttribute('data-value', `${element.textContent.trim()}<hr> <div id='cost'> Daily Cost: ${Math.round(cost)}</div><hr><div id='upCost'> Upfront Cost: ${Math.round(cost)*15}</div><hr><div id='power'> Soldiers: ${power}</div>`);
+
+    }
+    }
+}
+
+
+
+
+function calculateProbability(N_A, N_B, k) {
+    const strength_A = Math.pow(N_A, k);
+    const strength_B = Math.pow(N_B, k);
+    const probability_A = strength_A / (strength_A + strength_B);
+    return probability_A;
+}
+
+function calculateCasualties(N_A, N_B, k) {
+    // Step 1: Calculate probability of Side A winning
+    const probability_A = calculateProbability(N_A, N_B, k);
+
+
+    // Step 2: Determine the winning and losing sides
+    let winningSide;
+    let winningUnits;
+    let losingUnits;
+    let winningProbability;
+    
+    if (probability_A > Math.random()) {
+        winningSide = 'A'; // Side A is the winning side
+        winningUnits = N_A; // Winning side units = Side A units
+        losingUnits = N_B; // Losing side units = Side B units
+        winningProbability = probability_A; // Winning probability = Side A's probability
+    } else {
+        winningSide = 'B'; // Side B is the winning side
+        winningUnits = N_B; // Winning side units = Side B units
+        losingUnits = N_A; // Losing side units = Side A units
+        winningProbability = 1-probability_A; // Winning probability = Side B's probability
+    }
+    // Step 3: Calculate casualties for the winning side
+    const winningCasualties = winningUnits * (1 - winningProbability);
+    const winningDeaths = (4 * winningCasualties) / 5;
+    const winningWounded = winningCasualties / 5;
+
+    // Step 4: Calculate casualties for the losing side
+    const losingCasualties = losingUnits;
+    const losingDeaths = (6 * losingCasualties) / 7;
+    const losingWounded = losingCasualties / 7;
+    
+    // Step 5: Return results
+    return {
+        winningSide,
+        winningDeaths: Math.round(winningDeaths),
+        winningWounded: Math.round(winningWounded),
+        losingDeaths: Math.round(losingDeaths),
+        losingWounded: Math.round(losingWounded),
+    };
+}
+
+
+function attack(faction,unitBonus,resourceBonus,goldBonus,foodBonus){
+let enemyUnits;
+let resourceReward;
+let goldReward;
+let foodReward;
+
+if(faction==='pendriatic'){
+
+    enemyUnits = Math.floor(Math.random() * (12 - 3 + 1)) + 3 * unitBonus
+    resourceReward = Math.floor(Math.random() * (100 - 50 + 1)) + 50 * resourceBonus
+    goldReward = Math.floor(Math.random() * (30 - 5 + 1)) + 5 * goldBonus
+    foodReward = Math.floor(Math.random() * (50 - 30 + 1)) + 30 * foodBonus
+    let totalUnits = shuffleArray(getTotalUnits())
+    console.log(enemyUnits)
+    let results = calculateCasualties(mercenaryPower+jobCounts.soldier,enemyUnits,2)
+    displayBattleResults(results,totalUnits,resourceReward,goldReward,foodReward,'wood')
+}else if(faction==='bromund'){
+    enemyUnits = Math.floor(Math.random() * (12 - 3 + 1)) + 5* unitBonus
+    resourceReward = Math.floor(Math.random() * (110 - 60 + 1)) + 60 * resourceBonus
+    goldReward = Math.floor(Math.random() * (30 - 8 + 1)) + 8 * goldBonus
+    foodReward = Math.floor(Math.random() * (60 - 40 + 1)) + 40 * foodBonus
+    let totalUnits = shuffleArray(getTotalUnits())
+    console.log(enemyUnits)
+    let results = calculateCasualties(mercenaryPower+jobCounts.soldier,enemyUnits,2)
+    displayBattleResults(results,totalUnits,resourceReward,goldReward,foodReward,'stone')
+
+}else if(faction==='calradia'){
+    enemyUnits = Math.floor(Math.random() * (12 - 3 + 1)) + 8* unitBonus
+    resourceReward = Math.floor(Math.random() * (120 - 70 + 1)) + 70* resourceBonus
+    goldReward = Math.floor(Math.random() * (30 - 12 + 1)) + 12 * goldBonus
+    foodReward = Math.floor(Math.random() * (70 - 50 + 1)) + 50 * foodBonus
+    let totalUnits = shuffleArray(getTotalUnits())
+    console.log(enemyUnits)
+    let results = calculateCasualties(mercenaryPower+jobCounts.soldier,enemyUnits,2)
+    displayBattleResults(results,totalUnits,resourceReward,goldReward,foodReward,'iron')
+}
+
+
+
+}
+
+
+
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1)); 
+        [array[i], array[j]] = [array[j], array[i]]; 
+    }
+    return array;
+}
+
+function getTotalUnits(){
+    let totalUnits=[]
+    for(let i of citizens){
+        if(i.employment.toLowerCase() ==="soldier"){
+            totalUnits.push(i)
+        }
+    }
+    for(let j = 0; j<mercenaryPower;j++){
+
+        totalUnits.push('mercenary')
+
+    }
+    return totalUnits;
+}
+
+function displayBattleResults(results,totalUnits,resourceReward,goldReward,foodReward,resourceType){
+    if(results.winningSide == 'B'){
+        addEventLog(`We have lost the battle. We have lost ${results.losingDeaths} soldiers and ${results.losingWounded} have been wounded`)
+        for(let i = 0; i< results.losingDeaths;i++){
+            console.log(totalUnits)
+
+            if(totalUnits[i]!=='mercenary'){
+                killPerson(totalUnits[i])
+            }else{
+                mercenaryPower--
+            }
+        }
+
+
+        for(let j = 0; j<results.winningWounded;j++){
+            if(!totalUnits[j]=='mercenary'){
+    let rand = Math.floor(Math.random() * 4) + 1;
+
+    if(rand ===1){
+    i.addHealthEffect(new healthType('Minor Wound',1,'wound'))
+}else if(rand===2){
+    i.addHealthEffect(new healthType('Moderate Wound',3,'wound'))
+
+}else if(rand===3){
+    i.addHealthEffect(new healthType('Severe Wound',5,'wound'))
+
+}else if(rand===4){
+    i.addHealthEffect(new healthType('Extreme Wound',10,'wound'))
+
+}
+                
+            }
+
+
+        }
+
+
+        
+    }else if(results.winningSide == 'A'){
+        addEventLog(`We have won the battle. We have lost ${results.winningDeaths} soldiers and ${results.winningWounded} have been wounded. We have captured ${results.losingWounded} prisoners. We plundered ${resourceReward} ${resourceType},${goldReward} gold, and ${foodReward} meals`)
+        for(let i = 0; i< results.winningDeaths;i++){
+            console.log(totalUnits)
+            if(totalUnits[i]!=='mercenary'){
+                console.log(i)
+
+                killPerson(totalUnits[i])
+            }else{
+                mercenaryPower--
+            }
+        }
+
+        for(let j = 0; j<results.winningWounded;j++){
+            if(!totalUnits[j]=='mercenary'){
+    let rand = Math.floor(Math.random() * 4) + 1;
+
+    if(rand ===1){
+    i.addHealthEffect(new healthType('Minor Wound',1,'wound'))
+}else if(rand===2){
+    i.addHealthEffect(new healthType('Moderate Wound',3,'wound'))
+
+}else if(rand===3){
+    i.addHealthEffect(new healthType('Severe Wound',5,'wound'))
+
+}else if(rand===4){
+    i.addHealthEffect(new healthType('Extreme Wound',10,'wound'))
+
+}
+                
+            }
+
+
+        }
+
+    for(let k = 0; k<results.losingWounded;k++){
+        makeNewPerson()
+        changeImprisonment(everyone[everyone.length-1])
+        let rand = Math.floor(Math.random() * 4) + 1;
+
+    if(rand ===1){
+        everyone[everyone.length-1].addHealthEffect(new healthType('Minor Wound',1,'wound'))
+}else if(rand===2){
+    everyone[everyone.length-1].addHealthEffect(new healthType('Moderate Wound',3,'wound'))
+
+}else if(rand===3){
+    everyone[everyone.length-1].addHealthEffect(new healthType('Severe Wound',5,'wound'))
+
+}else if(rand===4){
+    everyone[everyone.length-1].addHealthEffect(new healthType('Extreme Wound',10,'wound'))
+
+}
+    }
+
+    if(resourceType==='wood'){
+
+        wood+=resourceReward
+
+        Math.min(woodMax,wood)
+
+    }else if(resourceType==='stone'){
+        stone+=resourceReward
+
+        Math.min(stoneMax,stone)
+
+        
+    }else if(resourceType==='iron'){
+        iron+=resourceReward
+
+        Math.min(ironMax,iron)
+    }
+
+    gold+=goldReward
+    Math.min(gold,goldMax)
+    meals+=foodReward
+    Math.min(meals,mealsMax)
+}
+
+}
+
+let plagueDays = 0
+
+function plagueSpread() {
+    // Precompute infected and susceptible individuals
+    const infected = everyone.filter(person => 
+        person.healthBreakDown.some(e => e.type === 'plague')
+    ).length;
+
+    console.log(`Infected: ${infected}`);
+
+    if (infected > 0) {
+        plagueDays++;
+
+        
+        let infectionDifference = Math.min(
+            Math.floor(infected * Math.exp(0.07 * plagueDays)) * (1-(infected/everyone.length)) - infected,
+            everyone.length - infected 
+        );
+
+        console.log(`New Infections: ${infectionDifference}`);
+
+        let susceptible = everyone.filter(person => 
+            !person.healthBreakDown.some(e => e.type === 'plague') && 
+            !person.moraleBreakDown.some(e => e.type === 'cure')
+        );
+
+        for (let i = 0; i < infectionDifference && i < susceptible.length; i++) {
+            let person = susceptible[i];
+            let rand = Math.random();
+
+            addEventLog(`${person.name} has gotten the plague!`)
+
+            if (rand < 0.40) {
+                person.addHealthEffect(new healthType('Minor Plague', 1, 'plague'));
+            } else if (rand < 0.80) {
+                person.addHealthEffect(new healthType('Moderate Plague', 3, 'plague'));
+            } else if (rand < 0.95) {
+                person.addHealthEffect(new healthType('Severe Plague', 5, 'plague'));
+            } else {
+                person.addHealthEffect(new healthType('Extreme Plague', 10, 'plague'));
+            }
+        }
+    } else {
+        plagueDays = 0; 
+    }
+}  //everyone[0].addHealthEffect(new healthType('plague',5,'plague',))

@@ -32,23 +32,23 @@
 <div id="residential" class="constructionDiv"> 
     <div id="residentialTitle" class="constructionDivTitle ">Residential</div>
     <div id="residentialButtons" class="constructionDivButtons">
-        <div class="constructionButton tooltip-trigger" data-value="Hovel<hr>A tight and ugly home for a couple residents<hr>+2 max citizens <hr><div id='resources'> 30 wood <br>30 stone</div> <hr> <div id = 'work'> 60 work power" >Hovel</div>
-        <div class="constructionButton  tooltip-trigger" data-value="Longhouse<hr>A sizable but uncomfortable residence for some citizens<hr>+5 max citizens <hr><div id='resources'> 70 wood <br>55 stone</div> <hr> <div id = 'work'> 130 work power">Longhouse</div>
-        <div class="constructionButton  tooltip-trigger" data-value="Cottage<hr>A cozy house for middle class citizens<hr>+3 max citizens <hr><div id='resources'> 80 wood <br>60 stone</div> <hr> <div id = 'work'> 200 work power">Cottage</div>
-        <div class="constructionButton  tooltip-trigger" data-value="Townhouse<hr>A large residence capable of housing many citizens<hr>+6 max citizens <hr><div id='resources'> 100 wood <br>110 stone <br>10 iron</div> <hr> <div id = 'work'> 300 work power">Townhouse</div>
-        <div class="constructionButton tooltip-trigger" data-value="Manor<hr>A luxurious home for a couple people <hr>+2 max citizens<hr><div id='resources'> 200 wood <br>240 stone <br>70 iron</div> <hr> <div id = 'work'> 500 work power">Manor</div>
+        <div class="constructionButton tooltip-trigger" data-value="Hovel<hr>A tight and ugly home for a couple residents<hr>+2 max hovel residents <hr><div id='resources'> 30 wood <br>30 stone</div> <hr> <div id = 'work'> 60 work power" >Hovel</div>
+        <div class="constructionButton  tooltip-trigger" data-value="Longhouse<hr>A sizable but uncomfortable residence for some citizens<hr>+5 max longhouse residents <hr><div id='resources'> 70 wood <br>55 stone</div> <hr> <div id = 'work'> 130 work power">Longhouse</div>
+        <div class="constructionButton  tooltip-trigger" data-value="Cottage<hr>A cozy house for middle class citizens<hr>+3 max cottage residents <hr><div id='resources'> 80 wood <br>60 stone</div> <hr> <div id = 'work'> 200 work power">Cottage</div>
+        <div class="constructionButton  tooltip-trigger" data-value="Townhouse<hr>A large residence capable of housing many citizens<hr>+6 max townhouse residents <hr><div id='resources'> 100 wood <br>110 stone <br>10 iron</div> <hr> <div id = 'work'> 300 work power">Townhouse</div>
+        <div class="constructionButton tooltip-trigger" data-value="Manor<hr>A luxurious home for a couple people <hr>+2 max manor residents<hr><div id='resources'> 200 wood <br>240 stone <br>70 iron</div> <hr> <div id = 'work'> 500 work power">Manor</div>
     </div>
 </div>
 <div id="storage" class="constructionDiv">
     <div id="storageTitle"  class="constructionDivTitle">Storage</div>
     <div id="storageButtons"class="constructionDivButtons">
-        <div id="granary"class="constructionButton tooltip-trigger" data-value="Granary<hr>A large storage place for crops<hr>+500 max crops <hr><div id='resources'> 90 wood <br>60 stone</div> <hr> <div id = 'work'> 200 work power" >
+        <div id="granary"class="constructionButton tooltip-trigger" data-value="Granary<hr>A large storage place for crops<hr>+1500 max crops <hr><div id='resources'> 90 wood <br>60 stone</div> <hr> <div id = 'work'> 200 work power" >
            Granary
         </div>
         <div id="shed"class="constructionButton tooltip-trigger" data-value="Shed<hr>A general all purpose storage shed<hr>+100 max wood <br> +80 max stone <br> +40 max iron <br> +5 max weapons <hr><div id='resources'> 150 wood <br>50 stone</div> <hr> <div id = 'work'> 200 work power" >Shed</div>
-        <div id="coldRoom"class="constructionButton tooltip-trigger" data-value="Cold Room<hr>A space to store easily perishable items<hr>+40 max meals <br> +30 max ale <hr><div id='resources'> 20 wood <br>90 stone</div> <hr> <div id = 'work'> 200 work power">Cold Room</div>
+        <div id="coldRoom"class="constructionButton tooltip-trigger" data-value="Cold Room<hr>A space to store easily perishable items<hr>+400 max meals <br> +30 max ale <hr><div id='resources'> 20 wood <br>90 stone</div> <hr> <div id = 'work'> 200 work power">Cold Room</div>
 
-        <div id="taxOffice"class="constructionButton tooltip-trigger"data-value="Tax Office<hr>A secure but tight room to store gold<hr>+100 max gold <hr><div id='resources'> 40 wood <br>60 stone<br>20 iron</div> <hr> <div id = 'work'> 600 work power">Bank</div>
+        <div id="taxOffice"class="constructionButton tooltip-trigger"data-value="Tax Office<hr>A secure but tight room to store gold<hr>+300 max gold <hr><div id='resources'> 40 wood <br>60 stone<br>20 iron</div> <hr> <div id = 'work'> 600 work power">Bank</div>
 
     </div>
 
@@ -83,22 +83,11 @@
 </div>
 
 
-<div id="justice" class="constructionDiv">
-    <div id="justiceTitle" class="constructionDivTitle">Justice</div>
-    <div id="justiceButtons" class="constructionDivButtons">
-        <div id="barracks"class="constructionButton">Barracks</div>
-        <div id="court"class="constructionButton">Court</div>
-        <div id="prison"class="constructionButton">Prison Block</div>
-        <div id="wall"class="constructionButton">Wall</div>
 
-
-    </div>
-
-</div>
 <div id="health" class="constructionDiv">
     <div id="healthTitle" class="constructionDivTitle">Health</div>
     <div id="healthButtons" class="constructionDivButtons constructionDivButtonsHalf">
-        <div id="clinic"class="constructionButton">Infirmary</div>
+        <div id="clinic"class="constructionButton tooltip-trigger"  data-value="Infirmary<hr>A building where doctors can heal others <hr>+2 max doctors <hr><div id='resources'> 50 wood <br>100 stone</div> <hr> <div id = 'work'> 150 work power">Infirmary</div>
         <div id="clinic"class="constructionButton">Bath House</div>
         
 
@@ -115,11 +104,12 @@
     </div>
 </div>
 <div id="justice" class="constructionDiv">
-    <div id="justiceTitle" class="constructionDivTitle">Justice</div>
+    <div id="justiceTitle" class="constructionDivTitle ">Justice</div>
     <div id="justiceButtons" class="constructionDivButtons">
-        <div id="barracks"class="constructionButton">Barracks</div>
-        <div id="prison"class="constructionButton">Prison Block</div>
-        <div id="wall"class="constructionButton">Wall</div>
+        <div id="guardhouse"class="constructionButton tooltip-trigger"data-value="Guardhouse<hr>The center of law enforcement <hr>+4 max constables <hr><div id='resources'> 100 wood <br>30 stone  </div> <hr> <div id = 'work'> 150 work power">Guardhouse</div>
+        <div id="barracks"class="constructionButton tooltip-trigger" data-value="Barracks<hr>A place to train soldiers<hr>+4 max soldiers <hr><div id='resources'> 80 wood <br>50 stone  <br> 10 iron</div> <hr> <div id = 'work'> 200 work power">Barracks</div>
+        <div id="prison"class="constructionButton tooltip-trigger" data-value="Prison<hr>A space to secure crimminals<hr>+8 max prisoners <hr><div id='resources'> 30 wood <br>200 stone  <br> 10 iron</div> <hr> <div id = 'work'> 250 work power">Prison</div>
+        <div id="watchtower"class="constructionButton tooltip-trigger" data-value="Watchtower<hr>Provides additional survailence for conducting military operations<hr><div id='resources'> 200 wood <br>150 stone  <br> 10 iron</div> <hr> <div id = 'work'> 400 work power">Watchtower</div>
 
 
     </div>
@@ -135,7 +125,7 @@
 
     <div class="personDivButtons">
 
-        <div class="personButton urgent" id="sickUrgent">Sick</div>
+        <div class="personButton urgent" id="sickUrgent">Plagued</div>
         <div class="personButton urgent" id="woundedUrgent">Wounded</div>   
         <div class="personButton urgent" id="starvingUrgent">Starving</div>
         <div class="personButton urgent"  id="unemployedUrgent">Unemployed</div>
@@ -153,7 +143,7 @@
 
     <div class="personDivButtons">
 
-        <div class="personButton" id="healthData">health</div>
+        <div class="personButton tooltip-trigger" id="healthData" data-value="<div id='healthBuff'></div>">health</div>
         <div class="personButton tooltip-trigger" id="moraleData" data-value="<div id='moodBuff'></div>">morale</div>   
         <div class="personButton" id="ageData">age</div>
         <div class="personButton" id="genderData">gender</div>
@@ -202,10 +192,9 @@
         <div class="personButton jobSelectButton" id="miner">Miner</div>
         <div class="personButton jobSelectButton" id="quarrier">Quarrier</div>
         <div class="personButton jobSelectButton" id="constable">Constable</div>
+        <div class="personButton jobSelectButton" id="soldier">Soldier</div>
         <div class="personButton jobSelectButton"  id="carpenter">Carpenter</div>
 
-
-        <div class="personButton jobSelectButton" id="train">Train as soldier</div>
 
 
     
@@ -230,7 +219,7 @@
     <div class="personOptionsDivButtons inactive" id="moreActionsOptions">
 
         <div class="personButton moreActionsSelectButton" id="execute" onclick="performExecution()">Execute</div>
-        <div class="personButton moreActionsSelectButton" id="imprisonment" onclick="changeImprisonment()" >Imprison</div>
+        <div class="personButton moreActionsSelectButton" id="imprisonment" onclick="changeImprisonment(personObj)" >Imprison</div>
         
 
 
@@ -245,8 +234,94 @@
 
 </div>
 
+<div id="legislature"  class="inactive mainMenu">
+
+    <div id="finance" class="legislatureDiv">
+        <div id="financeTitle" class="legislatureDivTitle">Finance</div>
+        <div id="financeButtons" class="legislatureDivButtons legislatureDivButtonsHalf" >
+            <div id="taxes"class="legislatureButton ">Taxes</div>
+            
+            <div id="theatre"class="legislatureButton tooltip-trigger"  >Theatre</div>
+    
+    
+    
+        </div>
+    </div>
 
 
+
+
+    
+</div>
+
+<div id="justiceMilitary"  class="inactive mainMenu">
+
+    <div id="mercenaryCompanies" class="justiceMilitaryDiv">
+        <div id="mercenaryCompaniesTitle" class="justiceMilitaryDivTitle">Mercenary Companies</div>
+        <div id="mercenaryCompaniesButtons" class="justiceMilitaryDivButtons" >
+            <div id="boar"class="justiceMilitaryButton mercenaryButton tooltip-trigger" onclick='acceptContract("boar")'data-value="Company of the golden boar<hr><div id='cost'></div><hr><div id='power'></div>">Company of the Golden Boar</div>
+            <div id="rats"class="justiceMilitaryButton mercenaryButton tooltip-trigger" data-value="Lake Rats<hr><div id='cost'></div><hr><div id='power'></div>">The Lake Rats</div>
+            <div id="skoldobra"class="justiceMilitaryButton mercenaryButton tooltip-trigger" data-value="Skoldobra<hr><div id='cost'></div><hr><div id='power'></div>"> Skoldobra</div>
+            <div id="flame"class="justiceMilitaryButton mercenaryButton tooltip-trigger" data-value="Embers of the Flame<hr><div id='cost'></div><hr><div id='power'></div>">The embers of the flame</div>
+            <div id="hand"class="justiceMilitaryButton mercenaryButton tooltip-trigger" data-value="Hidden Hand<hr><div id='cost'></div><hr><div id='power'></div>">Hidden Hand</div>
+
+            
+    
+    
+    
+        </div>
+    </div>
+    <div id="pendriatic" class="justiceMilitaryDiv">
+        <div id="pendriaticTitle" class="justiceMilitaryDivTitle">Dominion of Pendriatic</div>
+        <div id="pendriaticCompaniesButtons" class="justiceMilitaryDivButtons " >
+            <div id="ambushPendriatic"class="justiceMilitaryButton " onclick="attack('pendriatic',1,1,1,1,1)">Ambush Caravan</div>
+            <div id="raidPendriatic"class="justiceMilitaryButton " onclick="attack('pendriatic',5,4,4,20)">Raid Village</div>
+            <div id="siegePendriatic"class="justiceMilitaryButton "onclick="attack('pendriatic',20,6,50,25)"> Seige Castle </div>
+            
+
+            
+    
+    
+    
+        </div>
+    </div>
+    <div id="bromund" class="justiceMilitaryDiv">
+        <div id="bromundTitle" class="justiceMilitaryDivTitle">East Bromund Oath</div>
+        <div id="bromundCompaniesButtons" class="justiceMilitaryDivButtons " >
+            <div id="ambushBromund"class="justiceMilitaryButton "onclick="attack('bromund',1,1,1,1)">Ambush Caravan</div>
+            <div id="raidBromund"class="justiceMilitaryButton " onclick="attack('bromund',5,4,4,20)">Raid Village</div>
+            <div id="siegeBromund"class="justiceMilitaryButton " onclick="attack('bromund',20,6,50,25)"> Seige Castle</div>
+            
+
+            
+    
+    
+    
+        </div>
+    </div>
+    <div id="calradia" class="justiceMilitaryDiv">
+        <div id="calradiaTitle" class="justiceMilitaryDivTitle">North Calradian Empire</div>
+        <div id="calradiaCompaniesButtons" class="justiceMilitaryDivButtons " >
+            <div id="ambushCalradia"class="justiceMilitaryButton "onclick="attack('calradia',1,1,1,1)">Ambush Caravan</div>
+            <div id="raidCalradia"class="justiceMilitaryButton " onclick="attack('calradia',5,4,4,20)">Raid Village</div>
+            <div id="siegeCalradia"class="justiceMilitaryButton " onclick="attack('calradia',20,6,50,25)"> Seige Castle</div>
+            
+
+            
+    
+    
+    
+        </div>
+    </div>
+
+    
+   
+
+
+
+
+    
+</div>
 
 
 
@@ -265,10 +340,9 @@
         <!-- Footer Section -->
         <div id="footer">
             <div id="tab1" class="footerTab" onclick="switchToConstruction()">Construction</div>
-            <div id="tab2" class="footerTab">Justice & Military</div>
-            <div id="tab3" class="footerTab">Legislature</div>
+            <div id="tab2" class="footerTab" onclick="switchToJustice()">Justice & Military</div>
+            <div id="tab3" class="footerTab" onclick="switchToLegislature()">Legislature</div>
             <div id="tab4" class="footerTab">Trade</div>
-            <div id="tab5" class="footerTab">Research</div>
         </div>
 
         <!-- Right Side Section -->
