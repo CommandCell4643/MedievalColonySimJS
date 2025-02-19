@@ -1342,11 +1342,49 @@ if(citizens.length === 0){
         document.getElementById(i.name).classList.remove("prisoner")
 
     }
-    
+    updatePeopleInfo()
 updateTooltipData()
          
 
 }
+
+function updatePeopleInfo(){
+    document.getElementById('population').textContent = `Citizens: ${citizens.length}`
+    let tempHealth = 0
+    for(let i of citizens){
+        tempHealth+=i.health
+    }
+    document.getElementById('popHealth').textContent = `Citizen Health: ${Math.round(tempHealth/citizens.length)}`
+    let tempMorale = 0
+    for(let i of citizens){
+        tempMorale+=i.morale
+    }
+    document.getElementById('popMorale').textContent = `Citizen Morale: ${Math.round(tempMorale/citizens.length)}`
+    
+
+    document.getElementById('prisonerPopulation').textContent = `Prisoners: ${prisoners.length}`
+  
+  if(prisoners.length>0){
+    tempHealth = 0
+    for(let i of prisoners){
+        tempHealth+=i.health
+    }
+    document.getElementById('prisonerPopHealth').textContent = `Prisoner Health: ${Math.round(tempHealth/prisoners.length)}`
+     tempMorale = 0
+    for(let i of prisoners){
+        tempMorale+=i.morale
+    }
+    document.getElementById('prisonerPopMorale').textContent = `Prisoner Morale: ${Math.round(tempMorale/prisoners.length)}`
+    
+}
+    document.getElementById('mp').textContent = `Military Power: ${jobCounts.soldier + mercenaryPower}`
+    document.getElementById('soldiermp').textContent = `Our Soldier Power: ${jobCounts.soldier}`
+    document.getElementById('mercenarymp').textContent = `Hired Mercenary Power: ${mercenaryPower}`
+
+
+  }
+   
+
 
 function updateDailyData() {
     day++
@@ -1559,29 +1597,173 @@ function addEventLog(message) {
     newLog.className = "eventLogitem";
     newLog.innerHTML = `${message} - Day ${day}`;
 
-    logContainer.appendChild(newLog);
+    logContainer.prepend(newLog);
 
-    while (logContainer.children.length > 8) {
-        logContainer.removeChild(logContainer.firstChild);
-    }
+    
 }
 
 
 
 
 function addRandomEvent(){
-    const rand = Math.floor(Math.random() * 300); 
+    const rand = Math.random() * 500; // Single random roll for event determination
+    let casualties;
 
-    if (rand < 10 || rand < 5 || rand < 3 || rand < 1) {
-        if (rand <1) {
+    switch (true) {
+        case rand < 1: 
+            casualties = Math.floor(Math.random() * 4) + 1;
+            addEventLog(`A flash flood occurs and kills ${casualties} people`);
+            killManyPeople(everyone, casualties);
+            break;
 
-        } else if (rand < 3) {
+        case rand < 2: 
+            casualties = Math.floor(Math.random() * 3) + 1;
+            addEventLog(`A tornado appears and kills ${casualties} people`);
+            killManyPeople(everyone, casualties);
 
-        } else if (rand < 5) {
+            break;
 
-        } else if (rand < 10) {
+        case rand < 3:  
+            casualties = Math.floor(Math.random() * 2) + 1;
+            addEventLog(`Lightning strikes and kills ${casualties} people`);
+            killManyPeople(everyone, casualties);
 
-        }
+            break;
+            
+
+        case rand < 6: 
+            if (jobCounts.miner > 0 || jobCounts.quarrier > 0) {
+                let tempReward = Math.floor(Math.random() * 500) + 100;
+                addEventLog(`A worker finds ${tempReward} gold and gives it to you`);
+                gold += tempReward;
+            }
+
+            break;
+
+        
+
+        case rand < 11: 
+            addEventLog(`A case of the plague has been found in the settlement`);
+            let tempArrayPlague = shuffleArray(everyone);
+
+
+            let damagePlague = Math.floor(Math.random() * 4) + 1
+
+                if(damagePlague === 1){
+                    tempArrayPlague[0].addHealthEffect(new healthType('Minor Plague', 1, 'plague'));
+
+                }else if(damagePlague ===2){
+                    tempArrayPlague[0].addHealthEffect(new healthType('Moderate Plague', 3, 'plague'));
+
+                }else if(damagePlague===3){
+                    tempArrayPlague[0].addHealthEffect(new healthType('Severe Plague', 5, 'plague'));
+
+                }else if(damagePlague ===5){
+                    tempArrayPlague[0].addHealthEffect(new healthType('Extreme Plague', 10, 'plague'));
+
+                }
+
+            break;
+
+        case rand < 18: 
+        let travelerCount = Math.floor(Math.random() * 4) + 1;
+            addEventLog(`A group of ${travelerCount} travelers join the colony`);
+            for(let i = 0; i<travelerCount; i++){
+                makeNewPerson()
+            }
+
+            break;
+
+        case rand < 23:
+            addEventLog(`A tumbleweed rolls past`);
+
+            break;
+
+        case rand<40:
+            addEventLog(`Mercenary companies have new offers`);
+            rerollCompanies()
+            break;
+
+        case rand<47:
+            let berries = Math.floor(Math.random() * 800) + 400;
+            addEventLog(`Citizens discover a berry sprout, giving ${berries} berries`)
+            crops+=berries
+            break;
+
+        case rand<48:
+            let stolenWood = Math.floor(Math.random() * 100) + 20;
+            addEventLog(`Bandits swiped ${stolenWood} wood`)
+            wood-=stolenWood
+            Math.max(wood,0)
+            break;
+
+        case rand<51:
+            let stolenStone = Math.floor(Math.random() * 100) + 20;
+            addEventLog(`Bandits swiped ${stolenStone} stone`)
+            stone-=stolenStone
+            Math.max(stone,0)
+            break;
+
+        case rand<55:
+            let stolenGold = Math.floor(Math.random() * 100) + 20;
+            addEventLog(`Bandits swiped ${stolenGold} stone`)
+            gold-=stolenGold
+            Math.max(gold,0)
+            break;
+
+        case rand<58:
+            let rottenFood = Math.floor(Math.random() * 400) + 100;
+            addEventLog(` ${rottenFood} crops rotted away`)
+            crops-=rottenFood
+            Math.max(crops,0)
+            break;
+
+        case rand < 65: 
+        
+            let tempArray = shuffleArray(everyone);
+            
+                addEventLog(`${tempArray[0].name} got hurt while working`);
+            let damage = Math.floor(Math.random() * 4) + 1
+
+                if(damage === 1){
+                    tempArray[0].addHealthEffect(new healthType('Minor Wound', 1, 'wound'));
+
+                }else if(damage ===2){
+                    tempArray[0].addHealthEffect(new healthType('Moderate Wound', 3, 'wound'));
+
+                }else if(damage===3){
+                    tempArray[0].addHealthEffect(new healthType('Severe Wound', 5, 'wound'));
+
+                }else if(damage ===5){
+                    tempArray[0].addHealthEffect(new healthType('Extreme Wound', 10, 'wound'));
+
+                }
+
+            
+            break;
+
+            case rand < 68: 
+        
+            for(let i of everyone){
+                i.addMoraleEffect(new moraleType("Blood Moon",-5,20,'moon'))
+            }
+            
+            
+            break;
+
+            case rand < 71: 
+        
+            for(let i of everyone){
+                i.addMoraleEffect(new moraleType("Aurora",5,20,'moon'))
+            }
+            
+            
+            break;
+
+
+        default:
+            addEventLog(rand  )
+            break;
     }
 }
 
@@ -1589,6 +1771,14 @@ function addRandomEvent(){
 
 
 
+function killManyPeople(array, number){
+    let newArray = shuffleArray(array);
+
+    for(let i = 0; i<number;i++){
+        killPerson(newArray[i])
+    }
+
+}
 
 
 
