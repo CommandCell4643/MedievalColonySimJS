@@ -1,7 +1,7 @@
 
-document.addEventListener("contextmenu",function(event){
-    event.preventDefault()
-})
+//document.addEventListener("contextmenu",function(event){
+  //  event.preventDefault()
+//})
 switchToConstruction()
 
 document.addEventListener("click", () => {
@@ -76,7 +76,6 @@ const jobCounts = {
     farmer: 0,
     miner: 0,
     quarrier: 0,
-    hunter: 0,
     constable: 0,
     soldier: 0,
     actor: 0,
@@ -93,7 +92,6 @@ let blacksmithMax = 0;
 let brewerMax = 0;
 let cookMax = 0;
 let farmerMax = 0;
-let hunterMax = 0;
 let woodcutterMax = 0;
 let minerMax = 0;
 let quarrierMax = 0;
@@ -520,7 +518,7 @@ function findPoor(array){
     let newArray = []
 
 for(let i of array){
-    if (i.healthBreakDown.some(e => e.type === "plague" || e.type === "wounded")) {
+    if (i.healthBreakDown.some(e => e.type === "plague" || e.type === "wound")) {
         newArray.push(i)
     }
     
@@ -537,7 +535,7 @@ function treatPatient(person){
         if(Math.random()<.14){
             let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
             person.healthBreakDown.splice(index,1)
-            person.addMoraleEffect('Cured',10,100,'cure')
+            person.addMoraleEffect(new moraleType('Cured',10,100,'cure'))
         }
 
 
@@ -545,14 +543,14 @@ function treatPatient(person){
             if(Math.random()<.11){
                 let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
                 person.healthBreakDown.splice(index,1)
-                person.addMoraleEffect('Cured',10,100,'cure')
+                person.addMoraleEffect(new moraleType('Cured',10,100,'cure'))
             }
         }else if(severity === 5){
 
             if(Math.random()<.7){
                 let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
                 person.healthBreakDown.splice(index,1)
-                person.addMoraleEffect('Cured',10,100,'cure')
+                person.addMoraleEffect(new moraleType('Cured',10,100,'cure'))
             }
 
 
@@ -560,40 +558,41 @@ function treatPatient(person){
             if(Math.random()<.3){
                 let index = person.healthBreakDown.findIndex(e => e.type === 'plague')
                 person.healthBreakDown.splice(index,1)
-                person.addMoraleEffect('Cured',10,100,'cure')
+                person.addMoraleEffect(new moraleType('Cured',10,100,'cure'))
             }
     }
-} else if(person.healthBreakDown.some(e => e.type === 'wounded')){
-    let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+} else if(person.healthBreakDown.some(e => e.type === 'wound')){
+    console.log(person)
+    let index = person.healthBreakDown.findIndex(e => e.type === 'wound')
         let severity = person.healthBreakDown[index].severity
         if(severity === 1){
         if(Math.random()<.14){
-            let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+            let index = person.healthBreakDown.findIndex(e => e.type === 'wound')
             person.healthBreakDown.splice(index,1)
-            person.addMoraleEffect('Healed',10,100,'heal')
+            person.addMoraleEffect(new moraleType('Healed',10,100,'heal'))
         }
 
 
         }else if(severity === 3){
             if(Math.random()<.11){
-                let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+                let index = person.healthBreakDown.findIndex(e => e.type === 'wound')
                 person.healthBreakDown.splice(index,1)
-                person.addMoraleEffect('Healed',10,100,'heal')
+                person.addMoraleEffect(new moraleType('Healed',10,100,'heal'))
             }
         }else if(severity === 5){
 
             if(Math.random()<.7){
-                let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+                let index = person.healthBreakDown.findIndex(e => e.type === 'wound')
                 person.healthBreakDown.splice(index,1)
-                person.addMoraleEffect('Healed',10,100,'heal')
+                person.addMoraleEffect(new moraleType('Healed',10,100,'heal'))
             }
 
 
         }else if(severity === 10){
             if(Math.random()<.3){
-                let index = person.healthBreakDown.findIndex(e => e.type === 'wounded')
+                let index = person.healthBreakDown.findIndex(e => e.type === 'wound')
                 person.healthBreakDown.splice(index,1)
-                person.addMoraleEffect('Healed',10,100,'heal')
+                person.addMoraleEffect(new moraleType('Healed',10,100,'heal'))
             }
     }
 }
@@ -832,7 +831,8 @@ changeToPerson(personObj)
             document.getElementById("ageData").innerText = `Age: ${personObj.age}`;
             document.getElementById("genderData").innerText = `Gender: ${personObj.gender}`;
             document.getElementById("employmentData").innerText = `Job: ${capitalizeWords(personObj.employment)}`;
-        
+            document.getElementById("residenceData").innerText = `Residence: ${capitalizeWords(personObj.residence)}`;
+
            
             determineUrgentNotes(personObj)
 
@@ -915,6 +915,9 @@ changeToPerson(personObj)
 
         function jobSelect(personObj, event) {
             if (clickCooldown) return;
+            if(personObj.employment.toLowerCase() == 'imprisoned'){
+                return;
+            }
         
             clickCooldown = true;
             setTimeout(() => (clickCooldown = false), 100);
@@ -945,11 +948,7 @@ changeToPerson(personObj)
                             personObj.employment = "farmer";
                         }
                         break;
-                    case "hunter":
-                        if (jobCounts.hunter < hunterMax && personObj.employment !== "Hunter") {
-                            personObj.employment = "hunter";
-                        }
-                        break;
+                   
                     case "miner":
                         if (jobCounts.miner < minerMax && personObj.employment !== "Miner") {
                             personObj.employment = "miner";
@@ -1006,7 +1005,6 @@ changeToPerson(personObj)
                 jobCounts.miner = findEmployees('miner')
                 jobCounts.quarrier = findEmployees('quarrier')
                 jobCounts.farmer = findEmployees('farmer')
-                jobCounts.hunter = findEmployees('hunter')
                 jobCounts.cook = findEmployees('cook')
                 jobCounts.brewer = findEmployees('brewer')
                 jobCounts.carpenter = findEmployees('carpenter')
@@ -1036,7 +1034,9 @@ changeToPerson(personObj)
 
             
             function changeResidence(residence){
-
+if(personObj.employment.toLowerCase() == 'imprisoned'){
+    return;
+}
 
             switch(residence){
                 case 'hovel': if(hovelSpace !== hovelResidents){
@@ -1217,7 +1217,6 @@ if(citizens.length === 0){
     jobCounts.miner = findEmployees('miner')
     jobCounts.quarrier = findEmployees('quarrier')
     jobCounts.farmer = findEmployees('farmer')
-    jobCounts.hunter = findEmployees('hunter')
     jobCounts.cook = findEmployees('cook')
     jobCounts.brewer = findEmployees('brewer')
     jobCounts.carpenter = findEmployees('carpenter')
@@ -1246,6 +1245,14 @@ if(citizens.length === 0){
      aleDaily = aleDaily-aleConsumed;
      goldDaily = goldDaily-goldConsumed
 
+    if(goldConsumed>gold){
+        for(let i of document.getElementsByClassName("mercenaryButton")){
+            if(i.classList.contains("selected")){
+                forfeitContract(i.id)
+            }
+        }
+    }
+
    
 
     wood = updateResource("wood", woodDaily, wood, woodMax, true);
@@ -1269,7 +1276,6 @@ if(citizens.length === 0){
     updateJobAndResidence('brewer', jobCounts.brewer, brewerMax);
     updateJobAndResidence('cook', jobCounts.cook, cookMax);
     updateJobAndResidence('farmer', jobCounts.farmer, farmerMax);
-    updateJobAndResidence('hunter', jobCounts.hunter, hunterMax);
     updateJobAndResidence('woodcutter', jobCounts.woodcutter, woodcutterMax);
     updateJobAndResidence('miner', jobCounts.miner, minerMax);
     updateJobAndResidence('quarrier', jobCounts.quarrier, quarrierMax);
@@ -1326,6 +1332,16 @@ if(citizens.length === 0){
     for(let i of everyone){
         i.updateHealth(true)
     }
+
+    for(let i of prisoners){
+        document.getElementById(i.name).classList.add("prisoner")
+
+    }
+    for(let i of citizens){
+        if( document.getElementById(i.name).classList.contains("prisoner"))
+        document.getElementById(i.name).classList.remove("prisoner")
+
+    }
     
 updateTooltipData()
          
@@ -1348,8 +1364,8 @@ updateResources()
 addRandomEvent()
 checkPrisonBreak()
 updateHealth()
+calculateTreatment()
 plagueSpread()
-
 updateMorale()
 
 
@@ -1786,10 +1802,11 @@ function rerollCompanies() {
 }
 
 function acceptContract(company){
+    let element = document.getElementById(company)
+
     let upCost= parseInt(element.getAttribute('data-upCost'))
 
 if(gold>upCost){
-    let element= document.getElementById(company)
     if(!element.classList.contains('selected')){
      element.classList.add('selected')
      let power= parseInt(element.getAttribute('data-power'))
