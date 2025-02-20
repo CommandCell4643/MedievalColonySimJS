@@ -1,7 +1,7 @@
 
-//document.addEventListener("contextmenu",function(event){
-  //  event.preventDefault()
-//})
+document.addEventListener("contextmenu",function(event){
+    event.preventDefault()
+})
 switchToConstruction()
 
 document.addEventListener("click", () => {
@@ -34,7 +34,7 @@ let personObj;
 let wood = 100
 let stone = 100
 let crops = 1000
-let meals = 100000  
+let meals = 50000 
 let gold = 100
 let iron = 0
 let ale = 0
@@ -95,7 +95,7 @@ let farmerMax = 0;
 let woodcutterMax = 0;
 let minerMax = 0;
 let quarrierMax = 0;
-let constableMax = 0;
+let constableMax = 5;
 let soldierMax = 5;
 
 let currentBuilding;
@@ -316,9 +316,10 @@ this.foodStatus = 7
         }else{
             this.foodStatus--
             this.addMoraleEffect(new moraleType("Didn't Eat",-15,1,'food'))
-
+            addEventLog(`${this.name} is starving`)
             if(this.foodStatus === 0){
                 killPerson(this)
+                addEventLog(`${this.name} has died of malnutrition`)
             }
 
         }
@@ -338,7 +339,7 @@ break;
     break;
     case 2: this.addMoraleEffect(new moraleType("Fair taxes",3,1,'taxes'))
 break;
-    default:this.addMoraleEffect(new moraleType("High taxes",(-5*(taxRate-2)),1,'taxes'))
+    default:this.addMoraleEffect(new moraleType("High taxes",(-7*(taxRate-2)),1,'taxes'))
 
         }
     }
@@ -456,8 +457,30 @@ if(this.health<=0){
             
             
             });
+
+            if(skip===false){
+        if(this.morale>30){
+
+        }else{
+            let chance = 1.004 * Math.exp(-0.1 * this.morale)
+            if(Math.random()<chance){
+                if(document.getElementById("emigration").getAttribute("data-migration")==="illegal"){
+                    if(document.getElementById("punishment").getAttribute("data-crime")==="execution"){
+                        changeImprisonment(this)
+                        performExecution(this)
+                    }else{
+                        changeImprisonment(this)
+
+                    }
+                }else{
+                    addEventLog(`${this.name} decided to leave because of poor mood`)
+                    killPerson(this)
+                }
+            }
+        }
     
     }
+}
 
 }
 let everyone = []
@@ -497,23 +520,9 @@ function killPerson(person) {
     }
 personObj = ''
     document.getElementById(person.name).remove();
+    switchToConstruction()
 }
-function calculateTreatment(){
-    console.log(8888)
 
-    let poorCitizens = findPoor(citizens)
-    let poorPrisoners= findPoor(prisoners)
-    let tempArrayCitizens = poorCitizens.sort((a, b) => a.health - b.health)
-    let tempArrayPrisoners = poorPrisoners.sort((a, b) => a.health - b.health)
-    let orderTreatment = tempArrayCitizens.concat(tempArrayPrisoners)
-    console.log(orderTreatment)
-    for(let i = 0;i<jobCounts.doctor; i++){
-        if(orderTreatment[i]){
-            treatPatient(orderTreatment[i])
-        }
-   
-    }
-}
 function findPoor(array){
     let newArray = []
 
@@ -1140,6 +1149,17 @@ function switchToLegislature(){
     document.getElementById("tab3").classList.add("selected")
     
 }
+function switchToTrade(){
+    for(let i of document.getElementsByClassName("mainMenu")){
+        i.style.display = "none"
+    }
+    for(let j of document.getElementsByClassName("footerTab")){
+        j.classList.remove("selected")
+    }
+    document.getElementById("trade").style.display = "grid"
+    document.getElementById("tab4").classList.add("selected")
+    
+}
 
 
 
@@ -1226,8 +1246,8 @@ if(citizens.length === 0){
 
     woodDaily = jobCounts.woodcutter * 3;
     ironDaily = jobCounts.miner * 1;
-    cropsDaily = jobCounts.farmer * 80
-    mealsDaily = jobCounts.cook * 40  - everyone.length * 3;
+    cropsDaily = jobCounts.farmer * 80 - calculateFuture('crops')
+    mealsDaily = jobCounts.cook * 40  - calculateFuture('meals')
     aleDaily = jobCounts.brewer * 10;
     stoneDaily = jobCounts.quarrier * 2;
     weaponsDaily = jobCounts.blacksmith * 1;
@@ -1245,13 +1265,7 @@ if(citizens.length === 0){
      aleDaily = aleDaily-aleConsumed;
      goldDaily = goldDaily-goldConsumed
 
-    if(goldConsumed>gold){
-        for(let i of document.getElementsByClassName("mercenaryButton")){
-            if(i.classList.contains("selected")){
-                forfeitContract(i.id)
-            }
-        }
-    }
+   
 
    
 
@@ -1388,7 +1402,7 @@ function updatePeopleInfo(){
 
 function updateDailyData() {
     day++
-    document.getElementById('timeData').innerText = day
+    document.getElementById('timeData').innerText = `Day: ${day}`
 
 if(day%365 === 0){
     for(let i of everyone){
@@ -1418,9 +1432,12 @@ for(let i of everyone){
     i.updateMorale(true)
 }
 function updateFood(){
-    for(let i of everyone){
+    let order = changeArrayOrderBasedOnLaw(citizens,prisoners,"priority")
+    for(let i of order){
         i.eatfood()
     }
+
+
 }
 function updateHealth(){
 
@@ -1500,6 +1517,11 @@ addEventLog(`${currentBuilding.name} was completed`)
             case 'Infirmary': doctorMax+=2
             break;
 
+            case 'Tavern': barkeepMax+=1
+            break;
+            case 'Theratre':actorMax+=2
+            break;
+            
 
 
 
@@ -1547,7 +1569,13 @@ function updateResources(){
       goldDaily = goldDaily-goldConsumed
 
    
-
+      if(goldConsumed>gold){
+        for(let i of document.getElementsByClassName("mercenaryButton")){
+            if(i.classList.contains("selected")){
+                forfeitContract(i.id)
+            }
+        }
+    }
     wood = updateResource("wood", woodDaily, wood, woodMax, false);
     stone = updateResource("stone", stoneDaily, stone, stoneMax,false);
     iron = updateResource("iron", ironDaily, iron, ironMax,false);
@@ -1558,8 +1586,14 @@ function updateResources(){
     meals = updateResource("meals", mealsDaily, meals, mealsMax,false);
 
     if(ale>0 && jobCounts.barkeep>0){
-        for(let i of everyone){
-            i.addMoraleEffect("Supplied Taverns",5*jobCounts.barkeep,1,'tavern')
+        for(let i of citizens){
+            i.addMoraleEffect("Supplied Taverns",3*jobCounts.barkeep,1,'tavern')
+        }
+    }
+
+    if(jobCounts.actor>0){
+        for(let i of citizens){
+            i.addMoraleEffect("Actor",4*jobCounts.actor,1,'actor')
         }
     }
 
@@ -1667,10 +1701,19 @@ function addRandomEvent(){
 
         case rand < 18: 
         let travelerCount = Math.floor(Math.random() * 4) + 1;
-            addEventLog(`A group of ${travelerCount} travelers join the colony`);
-            for(let i = 0; i<travelerCount; i++){
-                makeNewPerson()
+
+            if(document.getElementById("immigration").getAttribute("data-migration")==="allowed"){
+                addEventLog(`A group of ${travelerCount} wanderers join the colony`);
+                for(let i = 0; i<travelerCount; i++){
+                    makeNewPerson()
+                }
+            }else{
+                addEventLog(`A group of ${travelerCount} wanderers were rejected`);
+                for(let i of citizens){
+                    i.addMoraleEffect(new moraleType("Rejected wanderers",-10,20,'rejection'))
+                }
             }
+            
 
             break;
 
@@ -1694,28 +1737,28 @@ function addRandomEvent(){
             let stolenWood = Math.floor(Math.random() * 100) + 20;
             addEventLog(`Bandits swiped ${stolenWood} wood`)
             wood-=stolenWood
-            Math.max(wood,0)
+            wood =Math.max(wood,0)
             break;
 
         case rand<51:
             let stolenStone = Math.floor(Math.random() * 100) + 20;
             addEventLog(`Bandits swiped ${stolenStone} stone`)
             stone-=stolenStone
-            Math.max(stone,0)
+            stone = Math.max(stone,0)
             break;
 
         case rand<55:
             let stolenGold = Math.floor(Math.random() * 100) + 20;
             addEventLog(`Bandits swiped ${stolenGold} stone`)
             gold-=stolenGold
-            Math.max(gold,0)
+            gold = Math.max(gold,0)
             break;
 
         case rand<58:
             let rottenFood = Math.floor(Math.random() * 400) + 100;
             addEventLog(` ${rottenFood} crops rotted away`)
             crops-=rottenFood
-            Math.max(crops,0)
+            crops = Math.max(crops,0)
             break;
 
         case rand < 65: 
@@ -1760,9 +1803,161 @@ function addRandomEvent(){
             
             break;
 
+            case rand < 77:
 
+                let crimeRand = Math.random()
+                    console.log(crimeRand)
+                switch(true){
+
+                    case crimeRand<.3:
+                        if(document.getElementById("crimePolicy").getAttribute("data-crime")==="legal"||jobCounts.constable===0){
+                            let victim =Math.floor(Math.random() * citizens.length) 
+                            addEventLog(`Somebody murdered ${citizens[victim].name}`)
+                            killPerson(citizens[victim])
+                        }else if(Math.random()<.2){
+                            let victim =Math.floor(Math.random() * citizens.length) 
+
+                            if(Math.random()<.6){
+                                let perpetrator = Math.floor(Math.random() * citizens.length)
+                                if(document.getElementById("punishment").getAttribute("data-crime")==="execution"){
+                                    changeImprisonment(citizens[perpetrator])
+                                    performExecution(citizens[perpetrator])
+                                }else{
+                                    changeImprisonment(citizens[perpetrator])
+                        
+                                }
+                                addEventLog(`${citizens[perpetrator].name} was caught trying to commit a crime and has been punished`)
+
+                            }else{
+                                addEventLog(`Somebody murdered ${citizens[victim].name}`)
+                            killPerson(citizens[victim])
+
+                            }
+                            
+                        }
+                    
+
+                    break;
+
+                    
+                        
+                    
+
+                    
+
+                    case crimeRand<1:
+                        if(document.getElementById("crimePolicy").getAttribute("data-crime")==="legal"||jobCounts.constable===0){
+                            let stolen = Math.round(.08*gold)
+                            addEventLog(`Someone stole ${stolen} gold`)
+                            gold-=stolen
+                        }else if(Math.random()<.2){
+                            let stolen = Math.round(.08*gold)
+                            addEventLog(`Someone stole ${stolen} gold`)
+                            gold-=stolen
+
+                            if(Math.random()<.6){
+                                let perpetrator = Math.floor(Math.random() * citizens.length)
+                                if(document.getElementById("punishment").getAttribute("data-crime")==="execution"){
+                                    changeImprisonment(citizens[perpetrator])
+                                    performExecution(citizens[perpetrator])
+                                }else{
+                                    changeImprisonment(citizens[perpetrator])
+                        
+                                }
+                                addEventLog(`${citizens[perpetrator].name} was caught trying to commit a crime and has been punished`)
+
+                            }
+                        }
+                    break;
+
+
+
+                    
+
+                    
+                    
+
+                    default:
+                        
+                    break;
+
+                }
+
+
+
+            
+            break;
+
+
+            case rand<78:
+                let totalUnits = getTotalUnits()
+                let enemyForce = Math.floor(Math.random() * 100) + 1;
+
+                let results = calculateCasualties(totalUnits,enemyForce,2)
+
+                if(results.winningSide === "A"){
+                    addEventLog(`You were attacked but won. ${results.winningCasualties} people died and ${results.winningWounded} were wounded. You captured ${results.losingWounded} prisoners`)
+                    for(let i = 0; i< results.winningDeaths;i++){
+                        console.log(totalUnits)
+                        if(totalUnits[i]!=='mercenary'){
+                            console.log(i)
+            
+                            killPerson(totalUnits[i])
+                        }else{
+                            mercenaryPower--
+                        }
+                    }
+            
+                    for(let j = 0; j<results.winningWounded;j++){
+                        if(!totalUnits[j]=='mercenary'){
+                let rand = Math.floor(Math.random() * 4) + 1;
+            
+                if(rand ===1){
+                i.addHealthEffect(new healthType('Minor Wound',1,'wound'))
+            }else if(rand===2){
+                i.addHealthEffect(new healthType('Moderate Wound',3,'wound'))
+            
+            }else if(rand===3){
+                i.addHealthEffect(new healthType('Severe Wound',5,'wound'))
+            
+            }else if(rand===4){
+                i.addHealthEffect(new healthType('Extreme Wound',10,'wound'))
+            
+            }
+                            
+                        }
+            
+            
+                    }
+            
+                for(let k = 0; k<results.losingWounded;k++){
+                    makeNewPerson()
+                    changeImprisonment(everyone[everyone.length-1])
+                    let rand = Math.floor(Math.random() * 4) + 1;
+            
+                if(rand ===1){
+                    everyone[everyone.length-1].addHealthEffect(new healthType('Minor Wound',1,'wound'))
+            }else if(rand===2){
+                everyone[everyone.length-1].addHealthEffect(new healthType('Moderate Wound',3,'wound'))
+            
+            }else if(rand===3){
+                everyone[everyone.length-1].addHealthEffect(new healthType('Severe Wound',5,'wound'))
+            
+            }else if(rand===4){
+                everyone[everyone.length-1].addHealthEffect(new healthType('Extreme Wound',10,'wound'))
+            
+            }
+                }
+                }else{
+                    addEventLog(`You were raided and lost. Everyone was killed. Game Over`)
+                    alert('game over')
+                    killManyPeople(everyone,everyone.length)
+                }
+                
+                
+            break;
         default:
-            addEventLog(rand  )
+            
             break;
     }
 }
@@ -1861,9 +2056,9 @@ function changeImprisonment(person){
 
 
 
-function performExecution(){
+function performExecution(person){
     
-    if(prisoners.findIndex(e => e.name === personObj.name) !== - 1){
+    if(prisoners.findIndex(e => e.name === person.name) !== - 1){
         let rand = Math.random()
         let moraleAmount = 0
         let moraleName = ''
@@ -1888,7 +2083,7 @@ function performExecution(){
             moraleName = 'Terrible'
 
         }
-        addEventLog(`Prisoner ${personObj.name} was killed in a ${moraleName} execution`)
+        addEventLog(`Prisoner ${person.name} was killed in a ${moraleName} execution`)
         moraleName = `${moraleName} public execution`
         for(let i of citizens){
             i.addMoraleEffect(new moraleType(moraleName,moraleAmount,20,'execution'))
@@ -1919,14 +2114,14 @@ function performExecution(){
             moraleName = 'Terrible'
 
         }
-        addEventLog(`Citizen ${personObj.name} was killed in a ${moraleName} execution`)
+        addEventLog(`Citizen ${person.name} was killed in a ${moraleName} execution`)
         moraleName = `${moraleName} public execution`
         for(let i of citizens){
             i.addMoraleEffect(new moraleType(moraleName,moraleAmount,20, 'execution'))
         }
 
     }
-killPerson(personObj)
+killPerson(person)
 switchToConstruction()
 }
 
@@ -2255,7 +2450,7 @@ function displayBattleResults(results,totalUnits,resourceReward,goldReward,foodR
     }else if(resourceType==='stone'){
         stone+=resourceReward
 
-        Math.min(stoneMax,stone)
+        Math.min(s2toneMax,stone)
 
         
     }else if(resourceType==='iron'){
@@ -2273,7 +2468,7 @@ function displayBattleResults(results,totalUnits,resourceReward,goldReward,foodR
 }
 
 let plagueDays = 0
-
+2
 function plagueSpread() {
     // Precompute infected and susceptible individuals
     const infected = everyone.filter(person => 
@@ -2318,3 +2513,195 @@ function plagueSpread() {
         plagueDays = 0; 
     }
 }  //everyone[0].addHealthEffect(new healthType('plague',5,'plague',))
+
+let orderOptions = ["healthiest","unhealthiest","oldest","youngest","happiest","saddest"]
+
+function changeArrayOrderBasedOnLaw(array1, array2, id){
+    let tempArrayCitizens = array1
+    let tempArrayPrisoners = array2
+    switch(document.getElementById(id).getAttribute("data-order")){
+        case "unhealthiest":
+            tempArrayCitizens = array1.sort((a, b) => a.health - b.health);
+            tempArrayPrisoners =array2.sort((a, b) => a.health - b.health);
+
+        break;
+        case "healthiest":
+            tempArrayCitizens = array1.sort((a, b) => b.health - a.health);
+            tempArrayPrisoners =array2.sort((a, b) => b.health - a.health);
+
+        break;
+
+        case "oldest":
+            tempArrayCitizens =array1.sort((a, b) => b.age - a.age);
+            tempArrayPrisoners =array2.sort((a, b) => b.age - a.age);
+
+        break;
+
+        case "youngest":
+            tempArrayCitizens = array1.sort((a, b) => a.age - b.age);
+            tempArrayPrisoners =array2.sort((a, b) => a.age - b.age);
+
+        break;
+
+        case "happiest":
+            tempArrayCitizens = array1.sort((a, b) => b.happiness - a.happiness);
+            tempArrayPrisoners =array2.sort((a, b) => b.happiness - a.happiness);
+
+        break;
+
+
+        case "saddest":
+
+        tempArrayCitizens = array1.sort((a, b) => a.happiness - b.happiness);
+        tempArrayPrisoners =array2.sort((a, b) => a.happiness - b.happiness);
+break;
+
+    }
+    let x = tempArrayCitizens.concat(tempArrayPrisoners);
+    return x
+
+    
+}
+
+
+
+function calculateTreatment(){
+
+    let poorCitizens = findPoor(citizens)
+    let poorPrisoners= findPoor(prisoners)
+    changeArrayOrderBasedOnLaw(poorCitizens,poorPrisoners,"treatment")
+    for(let i = 0;i<jobCounts.doctor; i++){
+        if(orderTreatment[i]){
+            treatPatient(orderTreatment[i])
+        }
+   
+    }
+}
+
+
+for(let i of document.getElementsByClassName("orderBased")){
+
+    i.addEventListener("click",function(event){
+        let num = orderOptions.indexOf(i.getAttribute("data-order"))
+        if(num<orderOptions.length-1){
+            i.setAttribute("data-order",orderOptions[num+1])
+
+        }else{
+            i.setAttribute("data-order",orderOptions[0])
+
+        }
+        document.getElementById(i.id).innerText = `Priority: ${i.getAttribute("data-order")}`
+
+}
+
+
+)
+
+i.addEventListener("contextmenu",function(event){
+    let num = orderOptions.indexOf(i.getAttribute("data-order"))
+    if(num!==0){
+        i.setAttribute("data-order",orderOptions[num-1])
+
+    }else{
+        i.setAttribute("data-order",orderOptions[orderOptions.length-1])
+
+    }
+
+    document.getElementById(i.id).innerText = `Priority: ${i.getAttribute("data-order")}`
+}
+
+
+)
+
+
+
+
+}
+
+
+    document.getElementById("crimePolicy").addEventListener("click",function(event){
+        if( document.getElementById("crimePolicy").getAttribute("data-crime") == 'legal'){
+            document.getElementById("crimePolicy").setAttribute("data-crime","illegal") 
+        }else{
+            document.getElementById("crimePolicy").setAttribute("data-crime","legal") 
+        }
+        document.getElementById("crimePolicy").innerHTML =`Crime Policy: ${capitalizeWords(document.getElementById("crimePolicy").getAttribute("data-crime"))}`
+
+    })
+
+        
+    
+    document.getElementById("punishment").addEventListener("click",function(event){
+        if( document.getElementById("punishment").getAttribute("data-crime") == 'execution'){
+            document.getElementById("punishment").setAttribute("data-crime","prison") 
+        }else{
+            document.getElementById("punishment").setAttribute("data-crime","execution") 
+        }
+        document.getElementById("punishment").innerHTML =`Crime Punishment: ${capitalizeWords(document.getElementById("punishment").getAttribute("data-crime"))}`
+
+    })
+    document.getElementById("punishment").innerHTML =`Crime Punishment: ${capitalizeWords(document.getElementById("punishment").getAttribute("data-crime"))}`
+    document.getElementById("crimePolicy").innerHTML =`Crime Policy: ${capitalizeWords(document.getElementById("crimePolicy").getAttribute("data-crime"))}`
+
+    document.getElementById("immigration").addEventListener("click",function(event){
+        if( document.getElementById("immigration").getAttribute("data-migration") == 'none'){
+            document.getElementById("immigration").setAttribute("data-migration","allowed") 
+        }else{
+            document.getElementById("immigration").setAttribute("data-migration","none") 
+        }
+        document.getElementById("immigration").innerHTML =`Immigration: ${capitalizeWords(document.getElementById("immigration").getAttribute("data-migration"))}`
+
+    })
+
+    document.getElementById("immigration").innerHTML =`Immigration: ${capitalizeWords(document.getElementById("immigration").getAttribute("data-migration"))}`
+
+    document.getElementById("emigration").addEventListener("click",function(event){
+        if( document.getElementById("emigration").getAttribute("data-migration") == 'illegal'){
+            document.getElementById("emigration").setAttribute("data-migration","legal") 
+        }else{
+            document.getElementById("emigration").setAttribute("data-migration","illegal") 
+        }
+        document.getElementById("emigration").innerHTML =`Emigration: ${capitalizeWords(document.getElementById("emigration").getAttribute("data-migration"))}`
+
+    })
+    document.getElementById("emigration").innerHTML =`Emigration: ${capitalizeWords(document.getElementById("emigration").getAttribute("data-migration"))}`
+
+
+    function buyWood(){
+        if(gold>500){
+            wood+=100
+            gold-=500
+
+        }
+    }
+    function buyStone(){
+        if(gold>500){
+            stone+=100
+            gold-=500
+        }
+    }
+
+    function calculateFuture(resource){
+
+        
+
+        if(meals<everyone.length*3){
+            let availibleFed = Math.floor(meals/3)
+            let remaining = everyone.length-availibleFed
+            let cropsEaten = remaining * 30
+
+            if(resource === "meals"){
+                return availibleFed*3;
+            }else{
+                return cropsEaten;
+            }
+
+        }else{
+            if(resource === "meals"){
+                return everyone.length*3;
+            }else{
+                return 0;
+            }
+        }
+
+    }
